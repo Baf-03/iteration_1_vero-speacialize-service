@@ -1,0 +1,115 @@
+<section class="hero-section">
+  <div class="container">
+    <div class="hero-content">
+      <h1>5 steps to take your service online</h1>
+      <p>We're here to help you transition, launch & grow your new online business.</p>
+      <div class="hero-dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+  <section class="popular-gigs">
+    <div class="container">
+      <h2>Most Popular Gigs in Part-Time Cleaners</h2>
+      <div class="gigs-grid">
+        <div class="gig-card" *ngFor="let gig of popularGigs">
+          <!-- Gig Header -->
+          <div class="gig-header">
+            <img [src]="gig.imageUrl" [alt]="gig.name"/>
+            <div class="gig-info">
+              <h5>{{ gig.name }}</h5>
+              <small>{{ gig.level }}</small>
+            </div>
+          </div>
+
+          <!-- Gig Description -->
+          <p class="gig-description">{{ gig.description }}</p>
+
+          <!-- Gig Footer -->
+          <div class="gig-footer">
+            <!-- Single Star Rating -->
+            <div class="gig-rating">
+              <span class="star">★</span>
+              <span class="rating-text">{{ gig.rating }} ({{ gig.reviews }})</span>
+            </div>
+
+            <!-- Gig Actions -->
+            <div class="gig-actions">
+              <!-- Hamburger Icon -->
+              <button class="btn-action menu-btn">
+                <span class="menu-icon">☰</span>
+                <button class="btn-action heart-btn" [class.active]="gig.isLiked" (click)="toggleLike(gig)">
+                    <span class="heart-icon">&#10084;</span>
+                  </button>
+              </button>
+
+              <!-- Heart Icon -->
+             
+
+              <!-- Price Info -->
+              <div class="gig-price">
+                Starting at <strong>${{ gig.price }}/hr</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="recommended-gigs">
+    <div class="container">
+      <h2>Gigs you may like</h2>
+      <div class="gigs-grid">
+        <div class="gig-card" *ngFor="let gig of recommendedGigs">
+          <!-- Gig Header -->
+          <div class="gig-header">
+            <img [src]="gig.imageUrl" [alt]="gig.name"/>
+            <div class="gig-info">
+              <h5>{{ gig.name }}</h5>
+              <small>{{ gig.level }}</small>
+            </div>
+          </div>
+
+          <!-- Gig Description -->
+          <p class="gig-description">{{ gig.description }}</p>
+
+          <!-- Gig Footer -->
+          <div class="gig-footer">
+            <!-- Single Star Rating -->
+            <div class="gig-rating">
+              <span class="star">★</span>
+              <span class="rating-text">{{ gig.rating }} ({{ gig.reviews }})</span>
+            </div>
+
+            <!-- Gig Actions -->
+            <div class="gig-actions">
+              <!-- Hamburger Icon -->
+              <button class="btn-action menu-btn">
+                <span class="menu-icon">☰</span>
+                <button class="btn-action heart-btn" [class.active]="gig.isLiked" (click)="toggleLike(gig)">
+                    <span class="heart-icon">&#10084;</span>
+                  </button>
+              </button>
+
+             
+
+              <!-- Price Info -->
+              <div class="gig-price">
+                Starting at <strong>${{ gig.price }}/hr</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+</div>

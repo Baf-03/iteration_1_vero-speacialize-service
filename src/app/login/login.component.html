@@ -1,0 +1,55 @@
+<section class="form-section login-sec">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="form-area">
+          <div class="form-head">
+            <h1>Welcome</h1>
+          </div>
+          <div class="form-soc">
+            <form [formGroup]="loginForm">
+              <div class="form-group">
+                <label for="email">Contact No:</label>
+                <div class="field-wrap">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="+1 111 111 1111"
+                    id="email"
+                    required
+                    formControlName="mobileNumber"
+                  />
+                  <i class="fa fa-phone"></i>
+                </div>
+              </div>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                (click)="login()"
+                [disabled]="isSavingInProgress || !loginForm.valid"
+              >
+                Sign In
+
+                <i class="fa fa-spinner fa-spin" *ngIf="isSavingInProgress"></i>
+              </button>
+              <p class="paras">
+                Need to create a Account?
+                <a [routerLink]="['/sign-up-customer']">Sign Up</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-7">
+        <div class="formrimg">
+          <h3>
+            Elevate Every Step of Your <br />
+            Journey with Unparalleled <br />
+            Support
+          </h3>
+          <img src="/assets/images/login1.jpg" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

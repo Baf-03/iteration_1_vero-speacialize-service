@@ -1,0 +1,139 @@
+<div class="dashboard">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar Area -->
+        <div class="col-md-3 dash-left-area">
+          <!-- Your existing sidebar component -->
+          <app-provider-menu></app-provider-menu>
+        </div>
+  
+        <!-- Main Content Area -->
+        <div class="col-md-9 dash-right-area">
+          <div class="gigs-form-wrapper">
+            <!-- Page Title -->
+            <h1 class="page-title">Gigs</h1>
+  
+            <!-- Header (optional) -->
+            <app-provider-header></app-provider-header>
+  
+            <!-- FORM CONTAINER -->
+            <div class="form-container">
+              <!-- Row 1: Gig Title & Gig Price -->
+              <div class="form-row">
+                <!-- Gig Title -->
+                <div class="form-group half-width">
+                  <label for="gigTitle">Gig Title</label>
+                  <input
+                    type="text"
+                    id="gigTitle"
+                    [(ngModel)]="gigTitle"
+                    placeholder="Cleaning Service Provider"
+                  />
+                </div>
+  
+                <!-- Gig Price -->
+                <div class="form-group half-width">
+                  <label for="gigPrice">Gig Price</label>
+                  <div class="price-input">
+                    <input
+                      type="number"
+                      id="gigPrice"
+                      [(ngModel)]="gigPrice"
+                      placeholder="60.00"
+                      step="0.01"
+                      min="0"
+                    />
+                    <span class="price-unit">/hr</span>
+                  </div>
+                </div>
+              </div>
+  
+              <!-- Row 2: Description 1 -->
+              <div class="form-group">
+                <label for="description1">Enter Description</label>
+                <textarea
+                  id="description1"
+                  rows="3"
+                  [(ngModel)]="description1"
+                  placeholder="Enter Description..."
+                ></textarea>
+              </div>
+  
+              <!-- Row 3: Description 2 -->
+              <div class="form-group">
+                <label for="description2">Enter Description</label>
+                <textarea
+                  id="description2"
+                  rows="3"
+                  [(ngModel)]="description2"
+                  placeholder="Enter Description..."
+                ></textarea>
+              </div>
+  
+              <!-- Row 4: Additional Notes -->
+              <div class="form-group">
+                <label for="additionalNotes">Additional Notes</label>
+                <textarea
+                  id="additionalNotes"
+                  rows="2"
+                  [(ngModel)]="additionalNotes"
+                  placeholder="Enter Description..."
+                ></textarea>
+              </div>
+  
+              <!-- Row 5: Select Services -->
+              <div class="form-group">
+                <label for="servicesSelect">Select Services</label>
+                <select
+                  id="servicesSelect"
+                  [(ngModel)]="selectedService"
+                >
+                  <option>Please Select</option>
+                  <option *ngFor="let s of services">{{ s.name }}</option>
+                </select>
+              </div>
+  
+              <!-- Selected Services (chips) -->
+              <div class="selected-services">
+                <ng-container *ngFor="let service of services">
+                  <span
+                    class="service-chip"
+                    *ngIf="service.selected"
+                  >
+                    {{ service.name }}
+                    <button
+                      type="button"
+                      class="remove-chip"
+                      (click)="removeService(service)"
+                    >
+                      &times;
+                    </button>
+                  </span>
+                </ng-container>
+              </div>
+  
+              <!-- ACTION BUTTONS -->
+              <div class="form-actions">
+                <button
+                  class="btn-cancel"
+                  type="button"
+                  (click)="onCancel()"
+                >
+                  Cancel
+                </button>
+                <button
+                  class="btn-update"
+                  type="button"
+                  (click)="onUpdateGigs()"
+                >
+                  Update Gigs
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Main Content Area -->
+      </div>
+    </div>
+  </div>
+  

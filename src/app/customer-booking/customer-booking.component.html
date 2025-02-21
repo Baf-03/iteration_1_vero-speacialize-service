@@ -1,0 +1,115 @@
+<div class="bread-bar">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="breadcrumbs">
+          <li><a href="javascript:;">Home</a></li>
+          <li class="sep">&gt;</li>
+          <li><span>My Booking</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page-title">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+        <h1>My Booking</h1>
+      </div>
+      <div class="col-md-7">
+        <ul class="bk-count">
+          <li>
+            <a (click)="status = null; getJobs()" href="javascript:void(0)"
+              >All Bookings</a
+            >
+          </li>
+          <li>
+            <a (click)="status = 'OnVisit'; getJobs()" href="javascript:void(0)"
+              >OnVisit</a
+            >
+          </li>
+          <li>
+            <a
+              (click)="status = 'InProgress'; getJobs()"
+              href="javascript:void(0)"
+              >InProgress</a
+            >
+          </li>
+          <li>
+            <a
+              (click)="status = 'Completed'; getJobs()"
+              href="javascript:void(0)"
+              >Completed</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="mybksection">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="mybklist">
+          <ul>
+            <li>
+              <a
+                [ngClass]="{ active: type === null }"
+                href="javascript:;"
+                (click)="type = null; getJobs()"
+                >All</a
+              >
+            </li>
+            <li>
+              <a
+                [ngClass]="{ active: type === 'Scheduled' }"
+                href="javascript:;"
+                (click)="type = 'Scheduled'; getJobs()"
+                >Schedule</a
+              >
+            </li>
+            <li>
+              <a
+                [ngClass]="{ active: type === 'Now' }"
+                href="javascript:;"
+                (click)="type = 'Now'; getJobs()"
+                >Now</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="bkblock-list">
+          <div class="bkblock" *ngFor="let item of jobs">
+            <div class="bkblock-thumb">
+              <img src="{{ item.category.icon_url }}" alt="" />
+            </div>
+            <div class="bkblock-txt">
+              <h5>{{ item.category.name }}</h5>
+              <div class="bbstar">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+              </div>
+              <h5>USD {{ item?.detail?.work_price || 0 }}</h5>
+              <h5>USD {{ item?.detail?.visiting_charges || 0 }}</h5>
+              <!-- <span class="bkl-min"><i class="fa fa-clock"></i> 120 min</span> -->
+              <ul>
+                <!-- <li>USD 62.00 /hr</li> -->
+                <li>{{ item.job_description }}</li>
+                <li>{{ item?.createdAt | date : "mediumDate" }}</li>
+              </ul>
+              <span class="bkstatus pending"
+                ><img class="chk-wh" src="/assets/images/chk-wh.png" alt="" />
+                {{ item?.detail?.status || "Pending" }}</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

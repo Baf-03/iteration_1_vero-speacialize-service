@@ -1,0 +1,124 @@
+<div class="dashboard">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3 dash-left-area">
+        <app-provider-menu></app-provider-menu>
+      </div>
+
+      <div class="col-md-9 dash-right-area">
+        <div class="dash-9inn">
+          <app-provider-header></app-provider-header>
+
+          <div class="dash-table">
+            <div class="dash-nav">
+              <ul class="nav">
+                <li>
+                  <a
+                    class="active"
+                    [ngClass]="{ active: status == null }"
+                    data-toggle="pill"
+                    (click)="status = null; getJobs()"
+                    href="javascript:void(0)"
+                    >All Jobs</a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-toggle="pill"
+                    [ngClass]="{ active: status == 'OnVisit' }"
+                    (click)="status = 'OnVisit'; getJobs()"
+                    href="javascript:void(0)"
+                    >OnVisit</a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-toggle="pill"
+                    [ngClass]="{ active: status == 'InProgress' }"
+                    (click)="status = 'InProgress'; getJobs()"
+                    href="javascript:void(0)"
+                    >In-Progress</a
+                  >
+                </li>
+                <li>
+                  <a
+                    data-toggle="pill"
+                    [ngClass]="{ active: status == 'Completed' }"
+                    (click)="status = 'Completed'; getJobs()"
+                    href="javascript:void(0)"
+                    >Completed</a
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <div class="table-dash active" id="alljobs">
+              <h4>All Jobs</h4>
+
+              <table class="table-list">
+                <tbody>
+                  <tr>
+                    <th>S.No</th>
+                    <th>Customer Name</th>
+                    <th>Service</th>
+                    <th>Contact</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                  <tr *ngFor="let item of jobs">
+                    <td>1.</td>
+                    <td>
+                      <div class="dash-ico">
+                        <img
+                          style="width: 15%"
+                          src="{{ item.category.icon_url }}"
+                          alt=""
+                        />
+                        <h6>
+                          {{ item.customer.full_name }} <span>Customer</span>
+                        </h6>
+                      </div>
+                    </td>
+                    <td>{{ item.category.name }}</td>
+                    <td>{{ item.customer.email }}</td>
+                    <td>{{ item.job_description }}</td>
+                    <td>
+                      <span
+                        class="dt-span pending"
+                        *ngIf="
+                          item.detail.status === 'Pending' ||
+                          !item?.detail?.status
+                        "
+                      >
+                        {{ item?.detail?.status || "Pending" }}</span
+                      >
+                      <span
+                        class="dt-span accepted"
+                        *ngIf="item.detail.status === 'OnVisit'"
+                      >
+                        {{ item?.detail?.status || "OnVisit" }}</span
+                      >
+                      <span
+                        class="dt-span cancelled"
+                        *ngIf="item.detail.status === 'InProgress'"
+                      >
+                        {{ item?.detail?.status || "InProgress" }}</span
+                      >
+                      <span
+                        class="dt-span completed"
+                        *ngIf="item.detail.status === 'Completed'"
+                      >
+                        {{ item?.detail?.status || "Completed" }}</span
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

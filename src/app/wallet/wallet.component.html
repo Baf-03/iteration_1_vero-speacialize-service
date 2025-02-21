@@ -1,0 +1,183 @@
+<div class="bread-bar">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="breadcrumbs">
+          <li><a [routerLink]="['/']">Home</a></li>
+          <li class="sep">&gt;</li>
+          <li><span>Wallet</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="page-title">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1>Wallet</h1>
+      </div>
+      <div class="col-md-6 text-right">
+        <a class="btn btn-orange" href="javascript:;"
+          ><img src="/assets/images/card-add.png" alt="" /> Top Up Wallet</a
+        >
+      </div>
+    </div>
+  </div>
+</div> -->
+<section class="wallet-page">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="wallet_bank">
+          <div class="wallet_hd">
+            <h4>$ {{ balance }} <span>Wallet Balance</span></h4>
+          </div>
+          <div class="wallet_mbdy">
+            <div
+              class="wallet_card"
+              style="display: block; width: 100%"
+              *ngIf="currentCard"
+            >
+              <input
+                placeholder="$100"
+                style="width: 68.5%; display: inline-block; margin-right: 1.5%"
+                class="form-control"
+                [(ngModel)]="balanceToAdd"
+              />
+              <a
+                class="view-grey"
+                href="javascript:;"
+                style="
+                  margin-top: 1.5%;
+                  margin-bottom: 10px;
+                  padding: 7px;
+                  background: #00285f;
+                  color: white;
+                  width: 30%;
+                  text-align: center;
+                  display: inline-block;
+                "
+                (click)="addBalance()"
+              >
+                Add
+              </a>
+            </div>
+            <div class="wallet_card" style="display: block; width: 100%">
+              <input
+                placeholder="4242 4242 4242 4242"
+                style="width: 100%"
+                class="form-control"
+                [(ngModel)]="cardPayload.cardNo"
+              />
+
+              <input
+                placeholder="01/2024"
+                class="form-control"
+                style="
+                  width: 31.83%;
+                  display: inline-block;
+                  margin-right: 1.5%;
+                  margin-top: 1.5%;
+                "
+                [(ngModel)]="cardPayload.expiry"
+              />
+
+              <input
+                placeholder="123"
+                class="form-control"
+                style="
+                  width: 31.83%;
+                  display: inline-block;
+                  margin-right: 1.5%;
+                  margin-top: 1.5%;
+                "
+                [(ngModel)]="cardPayload.cvv"
+              />
+              <a
+                class="view-grey"
+                href="javascript:;"
+                style="
+                  margin-top: 1.5%;
+                  margin-bottom: 10px;
+                  padding: 7px;
+                  background: #00285f;
+                  color: white;
+                  width: 31.83%;
+                  text-align: center;
+                  display: inline-block;
+                "
+                (click)="saveCard()"
+              >
+                Save
+              </a>
+            </div>
+            <div
+              class="wallet_card"
+              style="border-top: 1px solid; padding-top: 12px"
+            >
+              <h5>My Save Cards</h5>
+              <a class="view-grey" href="javascript:;"
+                >View All <i class="fa fa-angle-right" aria-hidden="true"></i
+              ></a>
+            </div>
+            <div
+              class="wallet_card"
+              style="
+                display: block;
+                border-bottom: 1px solid;
+                padding-bottom: 6px;
+                cursor: pointer;
+              "
+              *ngFor="let item of cards"
+              (click)="currentCard = item.id"
+              [ngClass]="{ 'active-card': currentCard === item.id }"
+            >
+              <span>**** **** **** {{ item.last4 }}</span>
+              <br />
+              <span>{{ item.exp_month }}/{{ item.exp_year }}</span>
+              <br />
+              <!-- <img src="/assets/images/walletcard.svg" alt="" /> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="wallet_transac">
+          <div class="wallet_thd">
+            <h4>Recent Transactions</h4>
+            <a class="view-grey" href="javascript:;"
+              >View All <i class="fa fa-angle-right" aria-hidden="true"></i
+            ></a>
+          </div>
+          <div class="wtrans_list">
+            <div class="wtrans_block" *ngFor="let item of transactions">
+              <div class="wtans_sign">
+                <img src="/assets/images/wallet_i.png" alt="" />
+              </div>
+              <div class="wtans_booking">
+                <h6 style="text-transform: capitalize">
+                  {{ item.channel.type }}
+                </h6>
+                <h4>
+                  Booking ID: <b>{{ item.channel.reference_unique_id }}</b>
+                </h4>
+                <h4>
+                  Booking Date:
+                  <b>{{ item.createdAt | date : "mediumDate" }}</b>
+                </h4>
+                <h5>
+                  <div class="wallet_sign">$</div>
+                  <span>Paid via Card</span>
+                </h5>
+              </div>
+              <div class="wtans_price">
+                <h3>${{ item.amount }}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

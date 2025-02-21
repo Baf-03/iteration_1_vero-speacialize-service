@@ -1,0 +1,59 @@
+<section class="form-section otp_pg">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="form-area">
+          <div class="form-head">
+            <h1>Enter OTP</h1>
+            <p>Please enter the 4 digit OTP send to your email address.</p>
+          </div>
+          <div class="form-soc">
+            <form [formGroup]="loginForm">
+              <div class="otp-group" style="margin-bottom: 0">
+                <input
+                  type="text"
+                  class="form-control"
+                  required
+                  formControlName="code"
+                />
+              </div>
+              <a
+                href="javascript:;"
+                (click)="resend()"
+                style="text-align: right; display: block; margin-bottom: 15px"
+                >Resend</a
+              >
+              <div class="form-btn">
+                <div class="field-blue">
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    (click)="verifyOtp()"
+                    [disabled]="isSavingInProgress || !loginForm.valid"
+                  >
+                    Verify
+
+                    <i
+                      class="fa fa-spinner fa-spin"
+                      *ngIf="isSavingInProgress"
+                    ></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-7">
+        <div class="formrimg">
+          <h3>
+            Elevate Every Step of Your <br />
+            Journey with Unparalleled <br />
+            Support
+          </h3>
+          <img src="/assets/images/bannerthumb.jpg" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

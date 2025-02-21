@@ -1,0 +1,39 @@
+<header>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <a class="logo" [routerLink]="['/']"
+          ><img src="/assets/images/logo.png" alt=""
+        /></a>
+      </div>
+      <div class="col-md-9">
+        <div class="hright">
+          <ul>
+            <li *ngIf="user">
+              <a href="javascript:;" [routerLink]="['/wallet']">{{
+                user?.full_name
+              }}</a>
+            </li>
+            <li *ngIf="user">
+              <a href="javascript:;" [routerLink]="['/jobs']">My Jobs</a>
+            </li>
+            <li class="orangebx" *ngIf="user">
+              <a class="btn-anhor" (click)="logout()"> Logout </a>
+            </li>
+            <li class="orangebx" *ngIf="!user">
+              <a class="btn-anhor" [routerLink]="['/login-customer']">
+                Sing In</a
+              >
+              |<a class="btn-anhor" [routerLink]="['/provider-login']">
+                Sing In Provider</a
+              >|
+              <a class="btn-anhor" [routerLink]="['/sign-up-provider']"
+                >Sing Up Provider</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

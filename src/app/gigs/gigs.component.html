@@ -1,0 +1,133 @@
+<div class="dashboard">
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar Area -->
+        <div class="col-md-3 dash-left-area">
+          <app-provider-menu></app-provider-menu>
+        </div>
+  
+        <!-- Main Content Area -->
+        <div class="col-md-9 dash-right-area">
+          <div class="dash-9inn">
+            <app-provider-header></app-provider-header>
+  
+            <div class="dash-table">
+              <!-- Navigation Tabs -->
+              <div class="dash-nav">
+                <ul class="nav">
+                  <li>
+                    <a
+                      [ngClass]="{ active: status == null }"
+                      data-toggle="pill"
+                      (click)="status = null; getGigs()"
+                      href="javascript:void(0)"
+                      >All Gigs</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      data-toggle="pill"
+                      [ngClass]="{ active: status == 'Upcoming' }"
+                      (click)="status = 'Upcoming'; getGigs()"
+                      href="javascript:void(0)"
+                      >Upcoming</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      data-toggle="pill"
+                      [ngClass]="{ active: status == 'InProgress' }"
+                      (click)="status = 'InProgress'; getGigs()"
+                      href="javascript:void(0)"
+                      >In-Progress</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      data-toggle="pill"
+                      [ngClass]="{ active: status == 'Completed' }"
+                      (click)="status = 'Completed'; getGigs()"
+                      href="javascript:void(0)"
+                      >Completed</a
+                    >
+                  </li>
+                </ul>
+              </div>
+  
+              <!-- Gigs Table -->
+              <div class="table-dash active" id="allgigs">
+                <h4>All Gigs</h4>
+  
+                <table class="table-list">
+                  <thead>
+                    <tr>
+                      <th>S.No</th>
+                      <th>Gig Title</th>
+                      <th>Client</th>
+                      <th>Contact</th>
+                      <th>Location</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let gig of gigs; let i = index">
+                      <td>{{ i + 1 }}.</td>
+                      <td>
+                        <div class="dash-ico">
+                          <img
+                            style="width: 15%"
+                            [src]="gig.category.icon_url"
+                            alt="Gig Icon"
+                          />
+                          <h6>
+                            {{ gig.title }} <span>Gig</span>
+                          </h6>
+                        </div>
+                      </td>
+                      <td>{{ gig.client.full_name }}</td>
+                      <td>{{ gig.client.email }}</td>
+                      <td>{{ gig.location }}</td>
+                      <td>
+                        <span
+                          class="dt-span pending"
+                          *ngIf="gig.status === 'Pending' || !gig?.status"
+                        >
+                          {{ gig?.status || "Pending" }}
+                        </span>
+                        <span
+                          class="dt-span accepted"
+                          *ngIf="gig.status === 'Upcoming'"
+                        >
+                          {{ gig?.status || "Upcoming" }}
+                        </span>
+                        <span
+                          class="dt-span cancelled"
+                          *ngIf="gig.status === 'InProgress'"
+                        >
+                          {{ gig?.status || "In-Progress" }}
+                        </span>
+                        <span
+                          class="dt-span completed"
+                          *ngIf="gig.status === 'Completed'"
+                        >
+                          {{ gig?.status || "Completed" }}
+                        </span>
+                      </td>
+                      <td>
+                        <!-- Example Action Button -->
+                        <button class="btn btn-primary">View</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- End Table -->
+            </div>
+          </div>
+        </div>
+        <!-- End Main Content Area -->
+      </div>
+    </div>
+  </div>
+  

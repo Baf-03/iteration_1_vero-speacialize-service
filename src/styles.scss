@@ -1,0 +1,13 @@
+@import "assets/css/styles.css";
+@import "assets/css/style-web.css";
+@import "assets/css/vendor-web.css";
+// @import "~@ng-select/ng-select/themes/default.theme.css";
+
+.loom-companion-mv3 {
+  display: none !important;
+}
+.active-card {
+  background: #00285f;
+  color: white;
+  padding-left: 10px;
+}

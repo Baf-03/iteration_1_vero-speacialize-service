@@ -1,0 +1,187 @@
+/* ===================================== */
+/* Dashboard Layout (Sidebar + Main)     */
+/* ===================================== */
+.dashboard {
+    padding: 20px;
+  
+    .container-fluid {
+      padding: 0;
+    }
+  
+    .dash-left-area {
+      background-color: #f8f9fa;
+      min-height: 100vh;
+      padding: 15px;
+    }
+  
+    .dash-right-area {
+      padding: 15px;
+    }
+  }
+  
+  /* ===================================== */
+  /* Gigs Form Wrapper Styles              */
+  /* ===================================== */
+  $primary-color: #ff6b00;
+  $text-dark: #2d3436;
+  $text-light: #636e72;
+  $border-color: #dfe6e9;
+  $bg-light: #ffffff;
+  
+  .gigs-form-wrapper {
+    /* We add a white background and a shadow if desired */
+    background-color: transparent; /* or #f8f9fa if you want a background */
+    padding: 0; /* Adjust as needed */
+  
+    .page-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: $text-dark;
+      margin-bottom: 16px;
+    }
+  
+    .form-container {
+      background-color: $bg-light;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  
+      .form-row {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 16px;
+  
+        @media (max-width: 768px) {
+          flex-direction: column;
+        }
+      }
+  
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 16px;
+  
+        label {
+          font-size: 14px;
+          font-weight: 500;
+          color: $text-dark;
+          margin-bottom: 6px;
+        }
+  
+        input[type='text'],
+        input[type='number'],
+        textarea,
+        select {
+          padding: 10px 12px;
+          border: 1px solid $border-color;
+          border-radius: 4px;
+          font-size: 14px;
+          color: $text-dark;
+          outline: none;
+          transition: border-color 0.2s ease;
+  
+          &:focus {
+            border-color: $primary-color;
+          }
+        }
+  
+        textarea {
+          resize: vertical;
+        }
+      }
+  
+      .half-width {
+        flex: 1;
+      }
+  
+      .price-input {
+        position: relative;
+        display: flex;
+        align-items: center;
+  
+        input {
+          flex: 1;
+          padding-right: 50px; /* space for the /hr label */
+        }
+  
+        .price-unit {
+          position: absolute;
+          right: 10px;
+          font-size: 14px;
+          color: $text-light;
+        }
+      }
+  
+      .selected-services {
+        margin-bottom: 16px;
+  
+        .service-chip {
+          display: inline-flex;
+          align-items: center;
+          background-color: #f1f1f1;
+          color: $text-dark;
+          padding: 6px 12px;
+          border-radius: 16px;
+          margin-right: 8px;
+          margin-bottom: 8px;
+          font-size: 14px;
+  
+          .remove-chip {
+            background: none;
+            border: none;
+            font-size: 16px;
+            margin-left: 6px;
+            cursor: pointer;
+            color: $text-light;
+            line-height: 1;
+  
+            &:hover {
+              color: $text-dark;
+            }
+          }
+        }
+      }
+  
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+  
+        @media (max-width: 576px) {
+          flex-direction: column;
+          align-items: stretch;
+        }
+  
+        .btn-cancel {
+          background-color: #fff;
+          border: 1px solid $border-color;
+          color: $text-dark;
+          padding: 10px 24px;
+          border-radius: 6px;
+          font-size: 14px;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
+  
+          &:hover {
+            background-color: #f1f1f1;
+          }
+        }
+  
+        .btn-update {
+          background-color: $primary-color;
+          border: none;
+          color: #fff;
+          padding: 10px 24px;
+          border-radius: 6px;
+          font-size: 14px;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
+  
+          &:hover {
+            background-color: darken($primary-color, 5%);
+          }
+        }
+      }
+    }
+  }
+  

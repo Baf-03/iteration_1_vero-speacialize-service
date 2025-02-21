@@ -1,0 +1,303 @@
+<!-- === STEP INDICATOR (TOP) === -->
+<div class="stepper-container">
+    <div class="step-item" *ngFor="let step of steps; let i = index">
+      <div
+        class="step-circle"
+        [ngClass]="{
+          'completed': isStepCompleted(i),
+          'current': isCurrentStep(i)
+        }"
+      >
+        <!-- If step is completed, show check mark. Otherwise, show step number. -->
+        <ng-container *ngIf="isStepCompleted(i); else notCompleted">
+          <span class="material-icons">done</span>
+        </ng-container>
+        <ng-template #notCompleted>
+          <span>{{ i + 1 }}</span>
+        </ng-template>
+      </div>
+      <!-- Dotted line after each step except the last one -->
+      <div *ngIf="i < totalSteps - 1" class="step-line"></div>
+    </div>
+  </div>
+  
+  <!-- === MAIN CARD FOR THE WIZARD === -->
+  <div class="form-card">
+    <h2>{{ steps[currentStepIndex].question }}</h2>
+    <div class="radio-group">
+      <label class="radio-option" *ngFor="let option of steps[currentStepIndex].options">
+        <input
+          type="radio"
+          [name]="'step' + currentStepIndex"
+          [value]="option"
+          [(ngModel)]="steps[currentStepIndex].answer"
+        />
+        <div class="custom-radio"></div>
+        <span>{{ option }}</span>
+      </label>
+    </div>
+  
+    <div class="btn-row">
+      <!-- Previous button -->
+      <button
+        class="btn-prev"
+        *ngIf="currentStepIndex > 0"
+        (click)="prevStep()"
+      >
+        Previous
+      </button>
+  
+      <!-- Next or Submit -->
+      <button
+        class="btn-next"
+        [disabled]="!isStepValid()"
+        (click)="nextStep()"
+        *ngIf="!isLastStep()"
+      >
+        Next
+      </button>
+      <button
+        class="btn-next"
+        [disabled]="!isStepValid()"
+        (click)="submitForm()"
+        *ngIf="isLastStep()"
+      >
+        Submit
+      </button>
+    </div>
+  </div>
+  
+  <!-- === SELECT ADDRESS MODAL === -->
+  <div class="modal-overlay" *ngIf="showSelectAddressModal">
+    <div class="modal-content address-modal">
+      <h2>Part Time Cleaners</h2>
+      <h3>Select Address</h3>
+  
+      <div class="address-group">
+        <label class="address-option" *ngFor="let addr of addresses">
+          <input
+            type="radio"
+            name="selectedAddress"
+            [value]="addr.label"
+            [(ngModel)]="selectedAddress"
+          />
+          <div class="custom-radio"></div>
+          <div class="address-info">
+            <div class="address-name">{{ addr.label }}</div>
+            <div class="address-line">{{ addr.addressLine }}</div>
+          </div>
+        </label>
+      </div>
+  
+      <div class="add-new-address">
+        <span class="plus-sign">+</span>
+        <span class="link-text" (click)="openNewAddressModal()">Add a new address</span>
+      </div>
+  
+      <button
+        class="btn-continue"
+        [disabled]="!selectedAddress"
+        (click)="onContinueFromSelectAddress()"
+      >
+        Continue
+      </button>
+    </div>
+  </div>
+  
+  <!-- === ADD NEW ADDRESS MODAL === -->
+  <div class="modal-overlay" *ngIf="showNewAddressModal">
+    <div class="modal-content add-address-modal">
+      <!-- Left side: Map container -->
+      <div class="map-section">
+        <div class="map-placeholder">
+          <div class="pin-container">
+            <div class="pin-label">
+              <strong>Professional will arrive here</strong><br/>
+              Move the pin to adjust
+            </div>
+            <div class="pin-marker"></div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Right side: Form fields -->
+      <div class="form-section">
+        <h2>Part Time Cleaners</h2>
+  
+        <label class="field-label">Your Location</label>
+        <input
+          type="text"
+          placeholder="Select Location"
+          [(ngModel)]="yourLocation"
+        />
+  
+        <label class="field-label">Your Location</label>
+        <input
+          type="text"
+          placeholder="Select Location"
+          [(ngModel)]="selectLocation"
+        />
+  
+        <label class="field-label">Flat / Building / Street</label>
+        <input
+          type="text"
+          placeholder="Enter here"
+          [(ngModel)]="buildingStreet"
+        />
+  
+        <label class="field-label">Your Name</label>
+        <input
+          type="text"
+          placeholder="Enter name"
+          [(ngModel)]="yourName"
+        />
+  
+        <label class="field-label">Save As:</label>
+        <div class="save-as-group">
+          <label class="save-as-option">
+            <input
+              type="radio"
+              name="addressType"
+              value="Home"
+              [(ngModel)]="addressType"
+            />
+            <span>Home</span>
+          </label>
+          <label class="save-as-option">
+            <input
+              type="radio"
+              name="addressType"
+              value="Office"
+              [(ngModel)]="addressType"
+            />
+            <span>Office</span>
+          </label>
+          <label class="save-as-option">
+            <input
+              type="radio"
+              name="addressType"
+              value="Other"
+              [(ngModel)]="addressType"
+            />
+            <span>Other</span>
+          </label>
+        </div>
+  
+        <button class="btn-save" (click)="onSaveAddress()">
+          Save Address
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- === SELECT DATE & TIME MODAL === -->
+  <div class="modal-overlay" *ngIf="showDateTimeModal">
+    <div class="modal-content datetime-modal">
+      <h2>Select Date of Service</h2>
+  
+      <!-- Month/Year header with dummy arrows -->
+      <div class="month-header">
+        <span class="month-name">March 2024</span>
+        <div class="arrows">
+          <span class="arrow">&lt;</span>
+          <span class="arrow">&gt;</span>
+        </div>
+      </div>
+  
+      <!-- Days of the week -->
+      <div class="days-of-week">
+        <div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
+      </div>
+  
+      <!-- A simple grid for March 2024 (starting Friday) -->
+      <div class="calendar-grid">
+        <!-- First row: blank placeholders for Sunday->Thursday, day 1 is Friday -->
+        <div class="day blank"></div> <!-- Sunday blank -->
+        <div class="day blank"></div> <!-- Monday blank -->
+        <div class="day blank"></div> <!-- Tuesday blank -->
+        <div class="day blank"></div> <!-- Wednesday blank -->
+        <div class="day blank"></div> <!-- Thursday blank -->
+        <!-- Day 1 (Friday) -->
+        <div 
+          class="day" 
+          [class.selected]="isDaySelected(1)"
+          (click)="onSelectDay(1)"
+        >1</div>
+        <!-- Day 2 (Saturday) -->
+        <div 
+          class="day" 
+          [class.selected]="isDaySelected(2)"
+          (click)="onSelectDay(2)"
+        >2</div>
+  
+        <!-- Next row: days 3..9 (Sun->Sat) -->
+        <div 
+          class="day" 
+          *ngFor="let d of [3,4,5,6,7,8,9]"
+          [class.selected]="isDaySelected(d)"
+          (click)="onSelectDay(d)"
+        >
+          {{ d }}
+        </div>
+  
+        <!-- Next row: 10..16 -->
+        <div 
+          class="day" 
+          *ngFor="let d of [10,11,12,13,14,15,16]"
+          [class.selected]="isDaySelected(d)"
+          (click)="onSelectDay(d)"
+        >
+          {{ d }}
+        </div>
+  
+        <!-- Next row: 17..23 -->
+        <div 
+          class="day" 
+          *ngFor="let d of [17,18,19,20,21,22,23]"
+          [class.selected]="isDaySelected(d)"
+          (click)="onSelectDay(d)"
+        >
+          {{ d }}
+        </div>
+  
+        <!-- Next row: 24..30 -->
+        <div 
+          class="day" 
+          *ngFor="let d of [24,25,26,27,28,29,30]"
+          [class.selected]="isDaySelected(d)"
+          (click)="onSelectDay(d)"
+        >
+          {{ d }}
+        </div>
+  
+        <!-- Next row: 31 (Sunday) -->
+        <div 
+          class="day" 
+          *ngFor="let d of [31]"
+          [class.selected]="isDaySelected(d)"
+          (click)="onSelectDay(d)"
+        >
+          {{ d }}
+        </div>
+      </div>
+  
+      <h2>Select Time of Service</h2>
+      <div class="time-select">
+        <select [(ngModel)]="selectedTime">
+          <option value="" disabled>Select Time</option>
+          <option *ngFor="let t of times" [value]="t">
+            {{ t }}
+          </option>
+        </select>
+      </div>
+  
+      <button
+        class="btn-continue"
+        [disabled]="!selectedDay || !selectedTime"
+        (click)="onContinueFromDateTime()"
+      >
+        Continue
+      </button>
+    </div>
+  </div>
+  

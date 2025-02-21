@@ -1,0 +1,161 @@
+<div class="dashboard">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3 dash-left-area">
+        <app-provider-menu></app-provider-menu>
+      </div>
+
+      <div class="col-md-9 dash-right-area">
+        <div class="dash-9inn">
+          <app-provider-header></app-provider-header>
+          <div class="pro-banner">
+            <div class="cover-banner">
+              <img
+                class="back-cover"
+                src="http://veroser.ziczacapps.com/assets/images/prof-banner.jpg"
+                alt=""
+              />
+              <div class="up-cover">
+                <input type="file" class="up-cover-file" value="" />
+                <button class="btn btn-white">
+                  <img
+                    src="http://veroser.ziczacapps.com/assets/images/upload_cover.png"
+                    alt=""
+                  />
+                  Edit Cover
+                </button>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="pro-head">
+                <div class="pro-left-thumb">
+                  <img
+                    src="http://veroser.ziczacapps.com/assets/images/user.jpg"
+                    alt=""
+                  />
+                </div>
+                <div class="pro-right-txt">
+                  <h3>
+                    Simon Lewis
+                    <span>Update your photo and personal Details</span>
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile_form">
+            <form [formGroup]="firstFormGroup">
+              <div class="form-personal">
+                <div class="basic-head">
+                  <h3>Personal Profile</h3>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label form="fname">Email:</label>
+                      <div class="form-wrap">
+                        <input
+                          type="email"
+                          class="form-control"
+                          value=""
+                          placeholder="markDoughan@gmail.com"
+                          required
+                          formControlName="email"
+                        />
+                        <i class="fa fa-envelope"></i>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label form="fname">Visiting Charges:</label>
+                      <div class="form-wrap">
+                        <input
+                          type="number"
+                          class="form-control"
+                          value=""
+                          placeholder="+11 333 698563"
+                          required
+                          formControlName="visiting_charges"
+                        />
+                        <i class="fa fa-money"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    Skills
+                    <ng-select
+                      formControlName="skills"
+                      required
+                      [ngClass]="{
+                        'is-invalid':
+                          firstFormGroup.get('skills').hasError('required') &&
+                          firstFormGroup.get('skills').touched
+                      }"
+                      [multiple]="true"
+                      required
+                    >
+                      <ng-option
+                        *ngFor="let item of serviceTypes"
+                        value="{{ item._id }}"
+                        >{{ item.name }}</ng-option
+                      >
+                    </ng-select>
+                    <div
+                      class="invalid-feedback"
+                      *ngIf="
+                        firstFormGroup.get('skills').hasError('required') &&
+                        firstFormGroup.get('skills').touched
+                      "
+                    >
+                      Please select skills.
+                    </div>
+                    <br />
+                    <br />
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label form="fname">About You</label>
+                      <div class="form-wrap">
+                        <textarea
+                          class="form-control"
+                          value=""
+                          placeholder="Enter Description..."
+                          required
+                          formControlName="about"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12">
+                    <div class="form-group-btn">
+                      <button
+                        class="btn btn-default upp-btn"
+                        (click)="update()"
+                        [disabled]="isSavingInProgress || !firstFormGroup.valid"
+                      >
+                        Update Personal Profile
+
+                        <i
+                          class="fa fa-spinner fa-spin"
+                          *ngIf="isSavingInProgress"
+                        ></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

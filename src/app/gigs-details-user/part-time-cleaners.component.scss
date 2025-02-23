@@ -1,0 +1,508 @@
+/* Variables */
+$primary-color: #ff6b00;
+$secondary-color: #2f4858;
+$text-dark: #2d3436;
+$text-light: #636e72;
+$border-color: #dfe6e9;
+$card-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+/* Page Wrapper */
+.page-wrapper {
+  background-color: #f8f9fa;
+  padding-bottom: 40px;
+}
+
+/* Container Utility */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* TOP ROW (Heading & Summary) */
+.top-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  // gap: 24px;
+  margin-top: 24px;
+  width:100%;
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+  }
+
+  .top-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: $secondary-color;
+      margin: 0;
+    }
+
+    .stars-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      .star {
+        color: #ffc107;
+        font-size: 20px;
+        &.filled {
+          color: #ffc107;
+        }
+        &.half {
+          color: #ffc107;
+        }
+      }
+      .rating-value {
+        font-size: 14px;
+        color: $text-light;
+        margin-left: 6px;
+      }
+    }
+
+    .price-info {
+      font-size: 16px;
+      color: $text-dark;
+      margin: 0;
+    }
+
+    .about-seller {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: $card-shadow;
+      padding: 16px;
+      margin-top: 12px;
+
+      h2 {
+        font-size: 18px;
+        color: $text-dark;
+        margin-bottom: 12px;
+      }
+
+      .seller-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+
+        .seller-avatar {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          object-fit: cover;
+          margin-right: 12px;
+        }
+
+        h3 {
+          font-size: 16px;
+          margin: 0 0 4px;
+          color: $text-dark;
+        }
+
+        .service-type {
+          font-size: 14px;
+          color: $text-light;
+          margin-bottom: 4px;
+        }
+
+        .seller-stars-rating {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+
+          .star {
+            font-size: 16px;
+            color: #ffc107;
+          }
+          .rating-value {
+            font-size: 14px;
+            color: $text-light;
+            margin-left: 6px;
+          }
+        }
+      }
+
+      .cleaning-supplies {
+        display: flex;
+        gap: 12px;
+
+        .supplies-btn {
+          flex: none;
+          padding: 8px 12px;
+          border: 1px solid $border-color;
+          border-radius: 6px;
+          background-color: #fff;
+          cursor: pointer;
+          font-size: 14px;
+          color: $text-dark;
+          transition: background-color 0.2s ease;
+
+          &.active {
+            background-color: $primary-color;
+            color: #fff;
+            border-color: $primary-color;
+          }
+        }
+      }
+    }
+  }
+
+  .top-right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+
+    @media (max-width: 992px) {
+      justify-content: flex-end;
+    }
+
+    .summary-card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: $card-shadow;
+      padding: 24px;
+      width: 100%;
+      max-width: 360px;
+
+      h3 {
+        font-size: 20px;
+        color: $text-dark;
+        margin-bottom: 16px;
+      }
+
+      .service-title {
+        font-size: 16px;
+        color: $text-dark;
+        margin-bottom: 8px;
+      }
+
+      .qty-selector {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+
+        button {
+          width: 32px;
+          height: 32px;
+          border-radius: 6px;
+          background-color: #fff;
+          border: 1px solid $border-color;
+          cursor: pointer;
+          font-size: 16px;
+          font-weight: 600;
+          transition: background 0.2s;
+
+          &:hover {
+            background-color: #f1f1f1;
+          }
+        }
+        span {
+          font-size: 16px;
+          color: $text-dark;
+          min-width: 20px;
+          text-align: center;
+        }
+      }
+
+      .price-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+
+        &.discount {
+          color: #e74c3c;
+        }
+
+        span {
+          font-size: 14px;
+          color: $text-dark;
+        }
+      }
+
+      .total-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 16px;
+        padding-top: 8px;
+        border-top: 1px solid $border-color;
+
+        span {
+          font-size: 16px;
+          color: $text-dark;
+          font-weight: 600;
+        }
+      }
+
+      .hire-btn {
+        margin-top: 16px;
+        width: 100%;
+        padding: 12px;
+        background-color: $primary-color;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: darken($primary-color, 5%);
+        }
+      }
+    }
+  }
+}
+
+/* HERO IMAGE (optional, full width) */
+.hero-image {
+  margin-top: 24px;
+  img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: $card-shadow;
+    object-fit: cover;
+  }
+}
+
+/* MAIN CONTENT (tasks/notes/reviews vs. Vero Promise) */
+.main-content {
+  display: flex;
+  gap: 24px;
+  margin-top: 24px;
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+  }
+}
+
+.left-col {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.right-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* POPULAR TASKS */
+.popular-tasks {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: $card-shadow;
+  padding: 24px;
+
+  h2 {
+    font-size: 20px;
+    color: $text-dark;
+    margin-bottom: 16px;
+  }
+  ul {
+    list-style: disc;
+    padding-left: 20px;
+    li {
+      font-size: 14px;
+      color: $text-light;
+      margin-bottom: 6px;
+    }
+  }
+}
+
+/* PLEASE NOTE */
+.please-note {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: $card-shadow;
+  padding: 24px;
+
+  h3 {
+    font-size: 18px;
+    color: $text-dark;
+    margin-bottom: 12px;
+  }
+  ul {
+    list-style: disc;
+    padding-left: 20px;
+    li {
+      font-size: 14px;
+      color: $text-light;
+      margin-bottom: 6px;
+    }
+  }
+}
+
+/* REVIEWS SECTION */
+.reviews-section {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: $card-shadow;
+  padding: 24px;
+
+  h2 {
+    font-size: 20px;
+    color: $text-dark;
+    margin-bottom: 24px;
+  }
+
+  .rating-overview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 24px;
+
+    .overall-rating {
+      min-width: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .rating-value-big {
+        font-size: 48px;
+        font-weight: 700;
+        color: #ffc107;
+      }
+      .stars {
+        margin: 8px 0;
+        .star {
+          color: #ffc107;
+          font-size: 24px;
+          margin-right: 2px;
+        }
+      }
+      .review-count {
+        font-size: 14px;
+        color: $text-light;
+      }
+    }
+
+    .star-breakdown {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .breakdown-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+
+        span:first-of-type {
+          width: 40px;
+          font-size: 14px;
+          color: $text-dark;
+        }
+        .progress-bar {
+          flex: 1;
+          background-color: #e0e0e0;
+          height: 8px;
+          border-radius: 4px;
+          overflow: hidden;
+          .progress-filled {
+            background-color: #ffc107;
+            height: 100%;
+          }
+        }
+        span:last-of-type {
+          width: 40px;
+          text-align: right;
+          font-size: 14px;
+          color: $text-light;
+        }
+      }
+    }
+  }
+
+  .helpful-reviews {
+    h3 {
+      font-size: 18px;
+      color: $text-dark;
+      margin-bottom: 16px;
+    }
+
+    .review-card {
+      background-color: #fafafa;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+      .review-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+
+        .review-avatar {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          object-fit: cover;
+          margin-right: 12px;
+        }
+        h4 {
+          font-size: 16px;
+          color: $text-dark;
+          margin: 0 0 4px;
+        }
+        .stars.small {
+          display: flex;
+          .star {
+            font-size: 14px;
+            color: #ffc107;
+            margin-right: 2px;
+          }
+        }
+        .review-rating-value {
+          font-size: 14px;
+          color: $text-light;
+          margin-left: 6px;
+        }
+      }
+
+      .review-comment {
+        font-size: 14px;
+        color: $text-dark;
+        margin-bottom: 8px;
+      }
+      .review-date {
+        font-size: 12px;
+        color: $text-light;
+      }
+    }
+  }
+}
+
+/* VERO PROMISE */
+.vero-promise {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: $card-shadow;
+  padding: 24px;
+
+  h3 {
+    font-size: 18px;
+    color: $text-dark;
+    margin-bottom: 12px;
+  }
+  ul {
+    list-style: disc;
+    padding-left: 20px;
+    li {
+      font-size: 14px;
+      color: $text-light;
+      margin-bottom: 6px;
+    }
+  }
+}

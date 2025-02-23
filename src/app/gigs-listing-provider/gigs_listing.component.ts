@@ -6,25 +6,26 @@ import { ApiService } from '../shared/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { SharedModule } from '../shared/shared.module';
 import { LocalStorageService } from '../shared/local-storage.service';
+import { Router } from '@angular/router';
 
 export interface Gig {
+  id: string; // Unique identifier
   name: string;
   description: string;
   rating: number;
   reviews: string;
   price: number;
   imageUrl: string;
-  isLiked: boolean;
 }
 
 @Component({
   selector: 'app-provider-profile',
   standalone: true,
   imports: [ProviderMenuComponent, ProviderHeaderComponent, SharedModule],
-  templateUrl: './provider-profile.component.html',
-  styleUrls: ['./provider-profile.component.scss']
+  templateUrl: './gigs_listing.component.html',
+  styleUrls: ['./app-vero-handyman.component.scss']
 })
-export class ProviderProfileComponent implements OnInit {
+export class GigsListingProvider implements OnInit {
   isFormLoaded = false;
   isSavingInProgress = false;
   firstFormGroup: any;
@@ -34,11 +35,17 @@ export class ProviderProfileComponent implements OnInit {
   // We'll load gigs from the API into this array
   gigs: Gig[] = [];
 
+  // Dummy values to use for each gig regardless of API response
+  private dummyImageUrl = 'https://img.freepik.com/free-psd/portrait-man-teenager-isolated_23-2151745771.jpg';
+  private dummyRating = 4.5;
+  private dummyReviews = '123';
+
   constructor(
     private fb: FormBuilder,
     private authService: ApiService,
     private toastr: ToastrService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private router: Router
   ) {
     // Get the logged in user from localStorage
     this.user = this.localStorageService.getUser();
@@ -52,22 +59,10 @@ export class ProviderProfileComponent implements OnInit {
 
   createForm() {
     this.firstFormGroup = this.fb.group({
-      about: [
-        this.user?.about || '',
-        Validators.compose([Validators.required])
-      ],
-      visiting_charges: [
-        this.user?.visiting_charges || '',
-        Validators.compose([Validators.required])
-      ],
-      email: [
-        this.user?.email || '',
-        Validators.compose([Validators.required, Validators.email])
-      ],
-      skills: [
-        this.user?.skills || [],
-        Validators.compose([Validators.required])
-      ]
+      about: [ this.user?.about || '', Validators.required ],
+      visiting_charges: [ this.user?.visiting_charges || '', Validators.required ],
+      email: [ this.user?.email || '', [Validators.required, Validators.email] ],
+      skills: [ this.user?.skills || [], Validators.required ]
     });
     this.isFormLoaded = true;
   }
@@ -85,25 +80,21 @@ export class ProviderProfileComponent implements OnInit {
     }
   }
 
-  // Fetch the gigs for the current provider from the API.
+  // Fetch gigs for the current provider and override image & rating with dummy values
   async loadMyGigs() {
     try {
-      // Assume your API expects the bearer token in the header
-      // and your LocalStorageService can provide the token.
       const res: any = await this.authService.getMyGigs();
       if (res && res.isSuccess && res.result) {
-        // Map the API gig to our Gig interface.
-        // Adjust the mapping as needed.
+        // Map API response to Gig interface and override image and rating values
         this.gigs = res.result.map((gig: any) => {
           return {
+            id: gig._id, // Ensure your API returns this field
             name: gig.title,
             description: gig.short_description,
-            rating: gig.current_rating,
-            reviews: Array.isArray(gig.reviews) ? gig.reviews.length.toString() : '0',
+            rating: this.dummyRating,
+            reviews: this.dummyReviews,
             price: gig.price,
-            // If your API doesn’t return an image URL, you can use a default placeholder.
-            imageUrl: gig.imageUrl || 'https://via.placeholder.com/150',
-            isLiked: false
+            imageUrl: this.dummyImageUrl
           } as Gig;
         });
       } else {
@@ -132,13 +123,21 @@ export class ProviderProfileComponent implements OnInit {
     this.isSavingInProgress = false;
   }
 
-  // "Message" button click action
-  onMessage(): void {
-    alert('Message clicked!');
+  // Navigate to gig details page using the gig id
+  onInfo(gig: Gig): void {
+    if (gig && gig.id) {
+      this.router.navigate(['/gigs-info/provider', gig.id]);
+    } else {
+      console.error('Gig id is missing', gig);
+    }
   }
 
-  // Toggle the like state for a gig
-  toggleLike(gig: Gig) {
-    gig.isLiked = !gig.isLiked;
+  // Navigate to the gig form page with the gig id as a query parameter
+  onEdit(gig: Gig): void {
+    if (gig && gig.id) {
+      this.router.navigate(['/gigs-form'], { queryParams: { id: gig.id } });
+    } else {
+      console.error('Gig id is missing', gig);
+    }
   }
 }

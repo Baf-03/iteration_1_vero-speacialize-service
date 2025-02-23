@@ -1,0 +1,48 @@
+<section class="hero-section">
+  <div class="container">
+    <div class="hero-content">
+      <h1>5 steps to take your service online</h1>
+      <p>We're here to help you transition, launch &amp; grow your new online business.</p>
+      <div class="hero-dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gigs-section">
+  <h4>Gigs</h4>
+  <div class="gigs-grid">
+    <div class="gig-card" *ngFor="let gig of gigs">
+      <div class="gig-header">
+        <img class="gig-avatar" [src]="gig.imageUrl" alt="Gig" />
+        <div class="gig-info">
+          <h5>{{ gig.name }}</h5>
+          <p class="gig-description">{{ gig.description }}</p>
+        </div>
+      </div>
+      <div class="gig-footer">
+        <div class="gig-rating">
+          <!-- Render 5 dummy stars -->
+          <span class="star" *ngFor="let i of [1,2,3,4,5]">★</span>
+          <span class="rating-text">{{ gig.rating }} ({{ gig.reviews }})</span>
+        </div>
+        <div class="gig-actions">
+          <div class="gig-price">
+            Starting at <strong>${{ gig.price }}/hr</strong>
+          </div>
+          <!-- Info and Edit Buttons -->
+          <button class="info-btn" (click)="onInfo(gig)">
+            <span class="info-icon">&#8505;</span>
+          </button>
+          <button class="edit-btn" (click)="onEdit(gig)">
+            <span class="edit-icon">&#9998;</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

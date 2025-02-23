@@ -1,0 +1,193 @@
+// Variables
+$primary-color: #ff6b00;
+$secondary-color: #2f4858;
+$text-dark: #2d3436;
+$text-light: #636e72;
+$border-color: #dfe6e9;
+$card-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+// Global Container
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+// Main Content
+.main-content {
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  padding: 40px 0;
+}
+
+// Hero Section
+.hero-section {
+  background: linear-gradient(
+      to right,
+      rgba(47, 72, 88, 0.95),
+      rgba(47, 72, 88, 0.85)
+    ),
+    url('https://media.licdn.com/dms/image/v2/C561BAQHS961kXf5sjA/company-background_10000/company-background_10000/0/1635378826217/cover_genius_cover?e=2147483647&v=beta&t=eyjurIzUddEmGepg99eyr4WCzQZPN0G6Ulwb7zXyQq4');
+  background-size: cover;
+  background-position: center;
+  min-height: 450px;
+  margin: 24px 20px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+
+  .hero-content {
+    max-width: 600px;
+    padding: 60px 20px;
+    color: white;
+
+    h1 {
+      font-size: 44px;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 18px;
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+
+    .hero-dots {
+      display: flex;
+      gap: 8px;
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+
+        &.active {
+          background: white;
+        }
+      }
+    }
+  }
+}
+
+/* GIGS SECTION */
+.gigs-section {
+  margin-bottom: 32px;
+
+  h4 {
+    font-size: 18px;
+    color: $text-dark;
+    width: 90%;
+    margin: 0 auto 5rem auto;
+  }
+
+  .gigs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+    width: 90%;
+    margin: auto;
+
+    .gig-card {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: $card-shadow;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .gig-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+
+        .gig-avatar {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          margin-right: 12px;
+          object-fit: cover;
+        }
+
+        .gig-info {
+          h5 {
+            font-size: 16px;
+            color: $text-dark;
+            margin: 0 0 4px;
+            font-weight: 600;
+          }
+          .gig-description {
+            font-size: 14px;
+            color: $text-light;
+            margin: 0;
+          }
+        }
+      }
+
+      .gig-footer {
+        margin-top: auto;
+
+        .gig-rating {
+          display: flex;
+          align-items: center;
+          margin-bottom: 8px;
+
+          .star {
+            font-size: 16px;
+            color: #ffc107;
+            margin-right: 2px;
+          }
+
+          .rating-text {
+            font-size: 14px;
+            color: $text-light;
+            margin-left: 4px;
+          }
+        }
+
+        .gig-actions {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          .gig-price {
+            font-size: 14px;
+            color: $text-dark;
+            strong {
+              font-weight: 600;
+            }
+          }
+
+          /* New styles for info and edit buttons */
+          .info-btn,
+          .edit-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 4px 8px;
+            margin-left: 8px;
+            color: $text-dark;
+            transition: color 0.2s ease;
+          }
+
+          .info-btn:hover,
+          .edit-btn:hover {
+            color: $primary-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Additional sections (work coverage, licenses, etc.) remain unchanged */

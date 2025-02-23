@@ -31,7 +31,7 @@ $color-dark: #333;
     font-weight: 600;
     font-size: 16px;
     position: relative;
-    z-index: 2; /* ensure above dotted line */
+    z-index: 2;
 
     .material-icons {
       font-size: 20px;
@@ -69,7 +69,6 @@ $color-dark: #333;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 30px;
   text-align: center;
-  /* Minimum height to fill most of screen */
   min-height: 50vh;
   display: flex;
   flex-direction: column;
@@ -82,6 +81,7 @@ $color-dark: #333;
   }
 }
 
+/* Radio group styles (steps 1-6) */
 .radio-group {
   display: flex;
   flex-direction: column;
@@ -123,7 +123,6 @@ $color-dark: #333;
       color: $color-dark;
     }
 
-    /* Fill the circle if selected */
     input[type='radio']:checked ~ .custom-radio::after {
       content: "";
       position: absolute;
@@ -137,6 +136,45 @@ $color-dark: #333;
   }
 }
 
+/* Multi-select checkbox styles (step 7) */
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+
+  label.checkbox-option {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    border: 1px solid $color-border;
+    border-radius: 8px;
+    background: $color-light-gray;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #eaeaea;
+    }
+
+    input[type='checkbox'] {
+      margin-right: 12px;
+    }
+
+    span {
+      font-size: 16px;
+      color: $color-dark;
+    }
+  }
+}
+
+/* Set a max-height and scroll for long multi-select lists */
+.multi-select-container {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Button row */
 .btn-row {
   display: flex;
   justify-content: center;
@@ -178,7 +216,7 @@ $color-dark: #333;
   }
 }
 
-/* === OVERLAY + MODAL BASE === */
+/* Modal overlay and modal base styles */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -198,7 +236,7 @@ $color-dark: #333;
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* === SELECT ADDRESS MODAL === */
+/* Select Address Modal */
 .address-modal {
   max-width: 500px;
   width: 90%;
@@ -312,7 +350,7 @@ $color-dark: #333;
   }
 }
 
-/* === ADD NEW ADDRESS MODAL === */
+/* Add New Address Modal */
 .add-address-modal {
   display: flex;
   flex-direction: row;
@@ -445,7 +483,7 @@ $color-dark: #333;
   }
 }
 
-/* === SELECT DATE & TIME MODAL === */
+/* Select Date & Time Modal */
 .datetime-modal {
   width: 400px;
   max-width: 90%;
@@ -557,7 +595,7 @@ $color-dark: #333;
   }
 }
 
-/* Responsive wizard card */
+/* Responsive styles for small screens */
 @media (max-width: 576px) {
   .stepper-container {
     flex-wrap: wrap;

@@ -64,40 +64,7 @@
     </div>
 
     <!-- SUMMARY CARD on the right -->
-    <div class="top-right">
-      <div class="summary-card">
-        <h3>Summary</h3>
-        <div class="service-title">{{ serviceName }}</div>
-        <div class="qty-selector">
-          <button (click)="decrementQty()">-</button>
-          <span>{{ quantity }}</span>
-          <button (click)="incrementQty()">+</button>
-        </div>
-
-        <!-- Price details -->
-        <div class="price-row">
-          <span>{{ serviceName }}</span>
-          <span>${{ basePrice.toFixed(2) }}</span>
-        </div>
-        <div class="price-row discount">
-          <span>Discount {{ discountPercent }}%</span>
-          <span>- ${{ discountAmount.toFixed(2) }}</span>
-        </div>
-        <div class="price-row">
-          <span>Taxes and fees</span>
-          <span>${{ taxes.toFixed(2) }}</span>
-        </div>
-        <div class="price-row">
-          <span>Service free</span>
-          <span>${{ serviceFee.toFixed(2) }}</span>
-        </div>
-        <div class="total-row">
-          <span>Total</span>
-          <span>${{ total }}</span>
-        </div>
-        <button class="hire-btn" (click)="hireMe()">Hire Me!</button>
-      </div>
-    </div>
+    
   </div>
 
   <!-- HERO IMAGE (optional, full width) -->

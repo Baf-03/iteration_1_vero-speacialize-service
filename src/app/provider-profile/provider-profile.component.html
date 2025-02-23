@@ -154,6 +154,38 @@
               </div>
             </form>
           </div>
+          <div class="gigs-section">
+            <h4>Gigs</h4>
+            <div class="gigs-grid">
+              <div class="gig-card" *ngFor="let gig of gigs">
+                <div class="gig-header">
+                  <img class="gig-avatar" [src]="gig.imageUrl" alt="Gig" />
+                  <div class="gig-info">
+                    <h5>{{ gig.name }}</h5>
+                    <p class="gig-description">{{ gig.description }}</p>
+                  </div>
+                </div>
+                <div class="gig-footer">
+                  <div class="gig-rating">
+                    <span
+                      class="star"
+                      *ngFor="let i of [1,2,3,4,5]"
+                      [class.filled]="gig.rating >= i"
+                      [class.half]="(gig.rating >= i - 0.5) && (gig.rating < i)"
+                      >★</span
+                    >
+                    <span class="rating-text">{{ gig.rating }} ({{ gig.reviews }})</span>
+                  </div>
+                  <div class="gig-actions">
+                    <div class="gig-price">Starting at <strong>\${{ gig.price }}/hr</strong></div>
+                    <button class="like-btn" [class.active]="gig.isLiked" (click)="toggleLike(gig)">
+                      <span class="heart-icon">&#10084;</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

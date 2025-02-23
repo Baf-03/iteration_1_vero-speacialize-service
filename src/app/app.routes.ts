@@ -16,11 +16,13 @@ import { LoginProviderComponent } from './login-provider/login-provider.componen
 import { ProviderJobsComponent } from './provider-jobs/provider-jobs.component';
 import { ProviderProfileComponent } from './provider-profile/provider-profile.component';
 import { GigsComponent } from './gigs/gigs.component';
-import { GigsListing } from './gigs-provider/gigs_listing.component';
-import { PartTimeCleanersComponent } from './hire-me/part-time-cleaners.component';
+import { GigsListing } from './gigs-listing-user/gigs_listing.component';
+import { PartTimeCleanersComponent } from './gigs-details-user/part-time-cleaners.component';
 import { GigsFormComponent } from './gigs-form/gigs-form.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { DynamicStepsFormComponent } from './multi-form/multi-step-form.component';
+import { GigsDetailsProvider } from './gigs-details-provider/part-time-cleaners.component';
+import { GigsListingProvider } from './gigs-listing-provider/gigs_listing.component';
 
 export const routes: Routes = [
   {
@@ -65,7 +67,11 @@ export const routes: Routes = [
   },
   { path: 'gigs', component: GigsComponent },
   { path: 'gigs-listing', component: GigsListing },
-  { path: 'gigs-hire', component: PartTimeCleanersComponent },
+  { path: 'gigs-info/user/:id', component: PartTimeCleanersComponent },
+  { path: 'gigs-info/provider/:id', component: GigsDetailsProvider },
+  { path: 'gigs-listing/provider', component: GigsListingProvider },
+
+
   
   {
     path: 'wallet',

@@ -6,6 +6,13 @@ export class ApiService {
   getGigs(status: any, type: any): any {
       throw new Error('Method not implemented.');
   }
+
+  getMyGigs(): Promise<any> {
+    const token = localStorage.getItem('accessToken') || '';
+    const headers = { Authorization: 'Bearer ' + token };
+    return this.http.get('gigs/my-gigs', { headers }).toPromise();
+  }
+
   constructor(private http: HttpClient) {}
 
   registerProvider(body: any): Promise<any> {

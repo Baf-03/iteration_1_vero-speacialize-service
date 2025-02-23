@@ -1,0 +1,170 @@
+/* GIGS */
+
+/* Variables */
+$primary-color: #ff6b00;
+$secondary-color: #2f4858;
+$text-dark: #2d3436;
+$text-light: #636e72;
+$border-color: #dfe6e9;
+$card-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+
+
+.gigs-section {
+    margin-bottom: 32px;
+
+    h4 {
+      font-size: 18px;
+      color: $text-dark;
+      margin-bottom: 16px;
+    }
+
+    .gigs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+
+      .gig-card {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: $card-shadow;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .gig-header {
+          display: flex;
+          align-items: center;
+          margin-bottom: 12px;
+
+          .gig-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            margin-right: 12px;
+            object-fit: cover;
+          }
+
+          .gig-info {
+            h5 {
+              font-size: 16px;
+              color: $text-dark;
+              margin: 0 0 4px;
+              font-weight: 600;
+            }
+            .gig-description {
+              font-size: 14px;
+              color: $text-light;
+              margin: 0;
+            }
+          }
+        }
+
+        .gig-footer {
+          margin-top: auto;
+
+          .gig-rating {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+
+            .star {
+              font-size: 16px;
+              color: #ffc107;
+              margin-right: 2px;
+            }
+
+            .rating-text {
+              font-size: 14px;
+              color: $text-light;
+              margin-left: 4px;
+            }
+          }
+
+          .gig-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .gig-price {
+              font-size: 14px;
+              color: $text-dark;
+              strong {
+                font-weight: 600;
+              }
+            }
+
+            .like-btn {
+              background: none;
+              border: none;
+              font-size: 20px;
+              cursor: pointer;
+              color: $text-light;
+              transition: color 0.2s ease;
+
+              &.active {
+                color: #e74c3c;
+              }
+
+              &:hover {
+                color: $text-dark;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  /* WORK COVERAGE */
+  .work-coverage-section {
+    margin-bottom: 32px;
+
+    h4 {
+      font-size: 18px;
+      color: $text-dark;
+      margin-bottom: 8px;
+    }
+
+    .coverage-type {
+      font-size: 14px;
+      color: $text-dark;
+      background-color: #f1f1f1;
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid $border-color;
+    }
+  }
+
+  /* LICENSES */
+  .licenses-section {
+    margin-bottom: 40px;
+
+    h4 {
+      font-size: 18px;
+      color: $text-dark;
+      margin-bottom: 12px;
+    }
+
+    .license-card {
+      width: 400px;
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: $card-shadow;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        display: block;
+      }
+    }
+  }
+

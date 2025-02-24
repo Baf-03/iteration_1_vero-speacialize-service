@@ -317,7 +317,7 @@ a.prod_anch {
 
 .owl-dots button.owl-dot {
     width: 10px;
-    .: 10px;
+    /* .: 10px; */
     border-radius: 30px;
     border: none;
     margin: 0 3px;

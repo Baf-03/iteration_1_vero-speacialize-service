@@ -14,7 +14,10 @@
 </section>
 
 <div class="gigs-section">
-  <h4>Gigs</h4>
+  <div class="section-header">
+    <h4>Gigs</h4>
+    <button class="add-gig-btn" (click)="onAddNewGig()">Add New Gig</button>
+  </div>
   <div class="gigs-grid">
     <div class="gig-card" *ngFor="let gig of gigs">
       <div class="gig-header">

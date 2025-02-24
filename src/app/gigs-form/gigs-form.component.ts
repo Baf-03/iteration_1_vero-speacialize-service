@@ -283,7 +283,7 @@ export class GigsFormComponent implements OnInit {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + this.getToken()
     });
-
+  
     // Build request body
     const body: any = {
       title: this.gigTitle,
@@ -292,22 +292,22 @@ export class GigsFormComponent implements OnInit {
       description: this.description2,
       services: this.selectedServices
     };
-
+  
     // If updating, include the gig id
     if (this.gigId) {
       body.id = this.gigId;
     }
-
+  
     this.http.post<any>('gigs', body, { headers }).subscribe({
       next: (res) => {
         if (res.isSuccess && res.result) {
           if (!this.gigId) {
             alert('Gig created successfully!');
-            // Set the gig id in edit mode by updating URL query params
-            this.gigId = res.result._id;
-            this.router.navigate([], { queryParams: { id: this.gigId } });
+            // Redirect to the gigs listing page for providers
+            this.router.navigate(['/gigs-listing/provider']);
           } else {
             alert('Gig updated successfully!');
+            // Optionally, redirect or perform another action after update
           }
         } else {
           alert('Failed to save gig');
@@ -319,6 +319,7 @@ export class GigsFormComponent implements OnInit {
       }
     });
   }
+  
 
   // ==============================
   //  Exit Edit Mode & Clear Form

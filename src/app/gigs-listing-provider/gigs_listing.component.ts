@@ -132,12 +132,17 @@ export class GigsListingProvider implements OnInit {
     }
   }
 
-  // Navigate to the gig form page with the gig id as a query parameter
+  // Navigate to the gig form page with the gig id as a query parameter (for editing)
   onEdit(gig: Gig): void {
     if (gig && gig.id) {
       this.router.navigate(['/gigs-form'], { queryParams: { id: gig.id } });
     } else {
       console.error('Gig id is missing', gig);
     }
+  }
+
+  // Navigate to add a new gig (no query params) by redirecting to /gigs-form
+  onAddNewGig(): void {
+    this.router.navigate(['/gigs-form']);
   }
 }

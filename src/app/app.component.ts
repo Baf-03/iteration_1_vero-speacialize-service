@@ -16,7 +16,7 @@ export class AppComponent {
   public user: any = null;
   constructor(private userService: LocalStorageService) {
     const s = this.userService.getUser();
-    debugger;
+    // debugger;
     if (s?.user_type !== 'ServiceProvider') {
       this.user = s?.user_type;
     }

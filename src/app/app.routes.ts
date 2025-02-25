@@ -23,6 +23,7 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { DynamicStepsFormComponent } from './multi-form/multi-step-form.component';
 import { GigsDetailsProvider } from './gigs-details-provider/part-time-cleaners.component';
 import { GigsListingProvider } from './gigs-listing-provider/gigs_listing.component';
+import { ChatComponent } from './chat/chat.component';
 
 export const routes: Routes = [
   {
@@ -70,9 +71,6 @@ export const routes: Routes = [
   { path: 'gigs-info/user/:id', component: PartTimeCleanersComponent },
   { path: 'gigs-info/provider/:id', component: GigsDetailsProvider },
   { path: 'gigs-listing/provider', component: GigsListingProvider },
-
-
-  
   {
     path: 'wallet',
     component: WalletComponent,
@@ -102,5 +100,9 @@ export const routes: Routes = [
   {
     path: 'provider-profile',
     component: ProviderProfileComponent,
+  },
+  {
+    path: 'chat',
+    component: ChatComponent
   },
 ];

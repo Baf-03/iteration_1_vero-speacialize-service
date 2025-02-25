@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface Task {
   name: string;
@@ -55,6 +55,7 @@ interface GigResponse {
 })
 export class PartTimeCleanersComponent implements OnInit {
   // Hero / Main Service Info
+  userId = ''
   serviceTitle = 'Part-time Cleaners';
   serviceRating = 4.6;
   serviceReviewsCount = '568k';
@@ -169,7 +170,7 @@ export class PartTimeCleanersComponent implements OnInit {
     return +(this.subTotal - this.discountAmount + this.taxes + this.serviceFee).toFixed(2);
   }
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {}
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     // Get the gig id from the URL params
@@ -195,6 +196,7 @@ export class PartTimeCleanersComponent implements OnInit {
           }
           if (result.user_id && result.user_id.email) {
             this.sellerName = result.user_id.email;
+            this.userId = result.user_id._id;
           }
           // You can also update additional fields such as short_description or description if needed
           // For example, you might add properties like:
@@ -235,6 +237,6 @@ export class PartTimeCleanersComponent implements OnInit {
   }
 
   hireMe() {
-    alert(`You have hired this service for ${this.quantity} hour(s)!`);
+    this.router.navigate(['/chat'], { queryParams: { recieverId: this.userId.toString() } });
   }
 }

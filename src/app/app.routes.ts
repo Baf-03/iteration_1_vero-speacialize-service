@@ -24,6 +24,8 @@ import { DynamicStepsFormComponent } from './multi-form/multi-step-form.componen
 import { GigsDetailsProvider } from './gigs-details-provider/part-time-cleaners.component';
 import { GigsListingProvider } from './gigs-listing-provider/gigs_listing.component';
 import { ChatComponent } from './chat/chat.component';
+import { QuoteModalPageComponent } from './quoteModal/quote-modal.component';
+import { NotificationsPageComponent } from './notifications/notifications-page.component';
 
 export const routes: Routes = [
   {
@@ -71,9 +73,11 @@ export const routes: Routes = [
   { path: 'gigs-info/user/:id', component: PartTimeCleanersComponent },
   { path: 'gigs-info/provider/:id', component: GigsDetailsProvider },
   { path: 'gigs-listing/provider', component: GigsListingProvider },
+  { path: 'quote-modal', component: QuoteModalPageComponent },
+
+  
   {
     path: 'wallet',
-    component: WalletComponent,
   },
   {
     path: 'jobs',
@@ -81,6 +85,10 @@ export const routes: Routes = [
   },
   { path: 'gigs-form', component: GigsFormComponent },
   { path: 'profile-gigs', component: ProfilePageComponent },
+  {
+    path: 'notifications',
+    component: NotificationsPageComponent
+  },
   {
     path: 'provider-dashboard',
     component: ProviderDashboardComponent,

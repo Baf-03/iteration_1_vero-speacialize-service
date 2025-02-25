@@ -19,14 +19,24 @@ $card-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   padding: 0 20px;
 }
 
+/* HERO IMAGE (optional, full width) */
+.hero-image {
+  margin-top: 24px;
+  img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: $card-shadow;
+    object-fit: cover;
+  }
+}
+
 /* TOP ROW (Heading & Summary) */
 .top-row {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  // gap: 24px;
   margin-top: 24px;
-  width:100%;
+  width: 100%;
 
   @media (max-width: 992px) {
     flex-direction: column;
@@ -53,6 +63,7 @@ $card-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
       .star {
         color: #ffc107;
         font-size: 20px;
+
         &.filled {
           color: #ffc107;
         }
@@ -159,7 +170,8 @@ $card-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     justify-content: flex-end;
 
     @media (max-width: 992px) {
-      justify-content: flex-end;
+      justify-content: flex-start;
+      margin-top: 24px;
     }
 
     .summary-card {
@@ -216,10 +228,6 @@ $card-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         justify-content: space-between;
         margin-bottom: 8px;
 
-        &.discount {
-          color: #e74c3c;
-        }
-
         span {
           font-size: 14px;
           color: $text-dark;
@@ -261,17 +269,6 @@ $card-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   }
 }
 
-/* HERO IMAGE (optional, full width) */
-.hero-image {
-  margin-top: 24px;
-  img {
-    width: 100%;
-    border-radius: 12px;
-    box-shadow: $card-shadow;
-    object-fit: cover;
-  }
-}
-
 /* MAIN CONTENT (tasks/notes/reviews vs. Vero Promise) */
 .main-content {
   display: flex;
@@ -281,23 +278,23 @@ $card-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   @media (max-width: 992px) {
     flex-direction: column;
   }
+
+  .left-col {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .right-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
 }
 
-.left-col {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.right-col {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-/* POPULAR TASKS */
+/* Popular tasks */
 .popular-tasks {
   background-color: #fff;
   border-radius: 12px;
@@ -320,7 +317,7 @@ $card-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   }
 }
 
-/* PLEASE NOTE */
+/* Please Note / Short Desc / Long Desc */
 .please-note {
   background-color: #fff;
   border-radius: 12px;
@@ -332,14 +329,11 @@ $card-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     color: $text-dark;
     margin-bottom: 12px;
   }
-  ul {
-    list-style: disc;
-    padding-left: 20px;
-    li {
-      font-size: 14px;
-      color: $text-light;
-      margin-bottom: 6px;
-    }
+  p {
+    font-size: 14px;
+    color: $text-light;
+    margin-bottom: 6px;
+    line-height: 1.6;
   }
 }
 
@@ -356,82 +350,28 @@ $card-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     margin-bottom: 24px;
   }
 
-  .rating-overview {
+  .no-feedback {
+    font-size: 14px;
+    color: $text-light;
+    margin-bottom: 12px;
+  }
+
+  .rating-na {
     display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    margin-bottom: 24px;
+    align-items: center;
+    gap: 8px;
 
-    .overall-rating {
-      min-width: 180px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      .rating-value-big {
-        font-size: 48px;
-        font-weight: 700;
-        color: #ffc107;
-      }
-      .stars {
-        margin: 8px 0;
-        .star {
-          color: #ffc107;
-          font-size: 24px;
-          margin-right: 2px;
-        }
-      }
-      .review-count {
-        font-size: 14px;
-        color: $text-light;
-      }
+    .star {
+      font-size: 20px;
+      color: #ffc107;
     }
-
-    .star-breakdown {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-
-      .breakdown-row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 8px;
-
-        span:first-of-type {
-          width: 40px;
-          font-size: 14px;
-          color: $text-dark;
-        }
-        .progress-bar {
-          flex: 1;
-          background-color: #e0e0e0;
-          height: 8px;
-          border-radius: 4px;
-          overflow: hidden;
-          .progress-filled {
-            background-color: #ffc107;
-            height: 100%;
-          }
-        }
-        span:last-of-type {
-          width: 40px;
-          text-align: right;
-          font-size: 14px;
-          color: $text-light;
-        }
-      }
+    .rating-text {
+      font-size: 14px;
+      color: $text-light;
     }
   }
 
   .helpful-reviews {
-    h3 {
-      font-size: 18px;
-      color: $text-dark;
-      margin-bottom: 16px;
-    }
-
     .review-card {
       background-color: #fafafa;
       border-radius: 8px;
@@ -504,5 +444,70 @@ $card-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
       color: $text-light;
       margin-bottom: 6px;
     }
+  }
+}
+
+/* MEDIA QUERIES for smaller screens */
+@media (max-width: 768px) {
+  .top-row {
+    .top-left,
+    .top-right {
+      margin-top: 16px;
+    }
+  }
+}
+
+/* Even smaller: phones under 576px */
+@media (max-width: 576px) {
+  .top-left h1 {
+    font-size: 26px;
+  }
+
+  .top-left .stars-rating .star {
+    font-size: 18px;
+  }
+
+  .top-left .price-info {
+    font-size: 14px;
+  }
+
+  .about-seller h2 {
+    font-size: 16px;
+  }
+
+  .seller-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .summary-card {
+    padding: 16px;
+    max-width: 100%;
+
+    h3 {
+      font-size: 18px;
+    }
+    .service-title {
+      font-size: 14px;
+    }
+    .qty-selector button {
+      width: 28px;
+      height: 28px;
+      font-size: 14px;
+    }
+    .qty-selector span {
+      font-size: 14px;
+    }
+  }
+
+  .popular-tasks,
+  .please-note,
+  .reviews-section,
+  .vero-promise {
+    padding: 16px;
+  }
+
+  .reviews-section h2 {
+    font-size: 18px;
   }
 }

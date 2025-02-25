@@ -1,50 +1,78 @@
 <div class="page-wrapper">
-
+  <!-- Hero Image -->
   <div class="hero-image container">
     <img [src]="heroImageUrl" alt="Hero Image" />
   </div>
 
-
   <!-- TOP ROW: Title/Rating/Price on left, Summary card on right -->
   <div class="top-row container">
-    
     <div class="top-left">
       <h1>{{ serviceTitle }}</h1>
+
+      <!-- If rating=0, show N/A and empty stars -->
       <div class="stars-rating">
-        <span
-          class="star"
-          *ngFor="let i of [1,2,3,4,5]"
-          [class.filled]="serviceRating >= i"
-          [class.half]="(serviceRating >= i - 0.5) && (serviceRating < i)"
-          >★</span
-        >
-        <span class="rating-value">{{ serviceRating }} ({{ serviceReviewsCount }})</span>
+        <ng-container *ngIf="serviceRating > 0; else ratingNA">
+          <!-- Filled / half logic -->
+          <span
+            class="star"
+            *ngFor="let i of [1,2,3,4,5]"
+            [class.filled]="serviceRating >= i"
+            [class.half]="(serviceRating >= i - 0.5) && (serviceRating < i)"
+            >★</span
+          >
+          <span class="rating-value">
+            {{ serviceRating.toFixed(1) }} ({{ serviceReviewsCount }})
+          </span>
+        </ng-container>
+        <ng-template #ratingNA>
+          <span class="star" *ngFor="let i of [1,2,3,4,5]">★</span>
+          <span class="rating-value">N/A ({{ serviceReviewsCount }})</span>
+        </ng-template>
       </div>
-      <p class="price-info">Starts at USD {{ servicePrice.toFixed(2) }}/hr</p>
+
+      <p class="price-info">
+        Starts at USD {{ servicePrice.toFixed(2) }}/hr
+      </p>
 
       <!-- About The Seller -->
       <section class="about-seller">
         <h2>About The Seller</h2>
         <div class="seller-info">
-          <img [src]="sellerAvatarUrl" alt="Seller Avatar" class="seller-avatar" />
+          <img
+            [src]="sellerAvatarUrl"
+            alt="Seller Avatar"
+            class="seller-avatar"
+          />
           <div>
             <h3>{{ sellerName }}</h3>
             <p class="service-type">{{ sellerServiceType }}</p>
+
+            <!-- If rating=0 => show N/A with empty stars -->
             <div class="seller-stars-rating">
-              <span
-                class="star"
-                *ngFor="let i of [1,2,3,4,5]"
-                [class.filled]="sellerRating >= i"
-                [class.half]="(sellerRating >= i - 0.5) && (sellerRating < i)"
-                >★</span
-              >
-              <span class="rating-value">{{ sellerRating }} ({{ sellerReviewsCount }})</span>
+              <ng-container *ngIf="sellerRating > 0; else sellerRatingNA">
+                <span
+                  class="star"
+                  *ngFor="let i of [1,2,3,4,5]"
+                  [class.filled]="sellerRating >= i"
+                  [class.half]="(sellerRating >= i - 0.5) && (sellerRating < i)"
+                  >★</span
+                >
+                <span class="rating-value">
+                  {{ sellerRating.toFixed(1) }} ({{ sellerReviewsCount }})
+                </span>
+              </ng-container>
+              <ng-template #sellerRatingNA>
+                <span class="star" *ngFor="let i of [1,2,3,4,5]">★</span>
+                <span class="rating-value">
+                  N/A ({{ sellerReviewsCount }})
+                </span>
+              </ng-template>
             </div>
           </div>
         </div>
 
         <!-- With / Without Cleaning Supplies -->
-        <div class="cleaning-supplies">
+        <!-- <div class="cleaning-supplies">
           <button
             class="supplies-btn"
             [class.active]="!hasCleaningSupplies"
@@ -59,7 +87,7 @@
           >
             With Cleaning Supplies
           </button>
-        </div>
+        </div> -->
       </section>
     </div>
 
@@ -79,10 +107,6 @@
           <span>{{ serviceName }}</span>
           <span>${{ basePrice.toFixed(2) }}</span>
         </div>
-        <!-- <div class="price-row discount">
-          <span>Discount {{ discountPercent }}%</span>
-          <span>- ${{ discountAmount.toFixed(2) }}</span>
-        </div> -->
         <div class="price-row">
           <span>Taxes and fees</span>
           <span>${{ taxes.toFixed(2) }}</span>
@@ -100,84 +124,74 @@
     </div>
   </div>
 
-  <!-- HERO IMAGE (optional, full width) -->
-  
   <!-- MAIN CONTENT: Left side tasks/notes/reviews, Right side Vero Promise -->
   <div class="container main-content">
     <div class="left-col">
-
-      <!-- Popular tasks -->
-      <section class="popular-tasks">
-        <h2>Popular tasks that the maid can do</h2>
+      <!-- Popular tasks (services from API) -->
+      <section class="popular-tasks" *ngIf="maidServices && maidServices.length > 0">
+        <h2>Popular tasks that Maid can do</h2>
         <ul>
-          <li *ngFor="let task of tasks">{{ task.name }}</li>
+          <li *ngFor="let srv of maidServices">{{ srv }}</li>
         </ul>
       </section>
+      <section class="popular-tasks" *ngIf="!(maidServices && maidServices.length)">
+        <h2>Popular tasks that Maid can do</h2>
+        <p>No tasks available.</p>
+      </section>
 
-      <!-- Please Note -->
-      <section class="please-note">
-        <h3>Please Note</h3>
-        <ul>
-          <li *ngFor="let note of notes">{{ note.text }}</li>
-        </ul>
+      <!-- Short Description Card -->
+      <section class="please-note" *ngIf="shortDescription">
+        <h3>Short Description</h3>
+        <p>{{ shortDescription }}</p>
+      </section>
+
+      <!-- Long Description Card -->
+      <section class="please-note" *ngIf="longDescription">
+        <h3>Description</h3>
+        <p>{{ longDescription }}</p>
       </section>
 
       <!-- Reviews and Ratings -->
       <section class="reviews-section">
         <h2>Reviews and Ratings</h2>
 
-        <!-- Overall rating + star breakdown -->
-        <div class="rating-overview">
-          <div class="overall-rating">
-            <div class="rating-value-big">{{ overallRating }}</div>
-            <div class="stars">
-              <span
-                class="star"
-                *ngFor="let i of [1,2,3,4,5]"
-                [class.filled]="overallRating >= i"
-                [class.half]="(overallRating >= i - 0.5) && (overallRating < i)"
-                >★</span
-              >
-            </div>
-            <p class="review-count">{{ overallReviewCount }} reviews</p>
-          </div>
-          <div class="star-breakdown">
-            <div class="breakdown-row" *ngFor="let breakdown of starBreakdown">
-              <span>{{ breakdown.star }} star</span>
-              <div class="progress-bar">
-                <div class="progress-filled" [style.width.%]="breakdown.percent"></div>
-              </div>
-              <span>{{ breakdown.percent }}%</span>
-            </div>
+        <!-- If no reviews, show "No feedback" UI -->
+        <div *ngIf="reviews.length === 0; else showReviews">
+          <p class="no-feedback">No feedback available right now.</p>
+          <div class="rating-na">
+            <span class="star" *ngFor="let i of [1,2,3,4,5]">★</span>
+            <span class="rating-text">N/A</span>
           </div>
         </div>
-
-        <!-- Most helpful reviews -->
-        <div class="helpful-reviews">
-          <h3>Most helpful reviews</h3>
-          <div class="review-card" *ngFor="let review of reviews">
-            <div class="review-header">
-              <img [src]="review.avatar" alt="Avatar" class="review-avatar" />
-              <div>
-                <h4>{{ review.name }}</h4>
-                <div class="stars small">
-                  <span
-                    class="star"
-                    *ngFor="let i of [1,2,3,4,5]"
-                    [class.filled]="review.rating >= i"
-                    [class.half]="(review.rating >= i - 0.5) && (review.rating < i)"
-                    >★</span
-                  >
+        <ng-template #showReviews>
+          <div class="helpful-reviews">
+            <div class="review-card" *ngFor="let rev of reviews">
+              <div class="review-header">
+                <img
+                  [src]="rev.avatar"
+                  alt="Avatar"
+                  class="review-avatar"
+                />
+                <div>
+                  <h4>{{ rev.name }}</h4>
+                  <div class="stars small">
+                    <span
+                      class="star"
+                      *ngFor="let i of [1,2,3,4,5]"
+                      [class.filled]="rev.rating >= i"
+                      [class.half]="(rev.rating >= i - 0.5) && (rev.rating < i)"
+                      >★</span
+                    >
+                  </div>
+                  <span class="review-rating-value">{{ rev.rating }}</span>
                 </div>
-                <span class="review-rating-value">{{ review.rating }}</span>
               </div>
+              <p class="review-comment">{{ rev.comment }}</p>
+              <small class="review-date">{{ rev.date }}</small>
             </div>
-            <p class="review-comment">{{ review.comment }}</p>
-            <small class="review-date">{{ review.date }}</small>
           </div>
-        </div>
+        </ng-template>
       </section>
-
     </div>
 
     <!-- RIGHT COLUMN: Vero Promise -->

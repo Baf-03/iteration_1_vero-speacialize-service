@@ -1,0 +1,243 @@
+// ------------------------------
+// VARIABLES
+// ------------------------------
+$text-dark: #2d3436;
+$gray-text: #636e72;
+$white: #ffffff;
+$border-radius: 12px;
+$card-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+$border-color: #eaeaea;
+
+// The container from your screenshot likely has ~1200px max width
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: "Roboto", sans-serif;
+}
+
+.notifications-container {
+  width: 100%;
+}
+
+// ------------------------------
+// TOP ROW (Title & Breadcrumb)
+// ------------------------------
+.top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+
+  .page-title {
+    font-size: 28px;
+    font-weight: 600;
+    color: $text-dark;
+    margin: 0;
+  }
+
+  .breadcrumb {
+    font-size: 14px;
+    color: $gray-text;
+  }
+
+  // On narrower screens, stack the title and breadcrumb
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+// ------------------------------
+// SECTION WRAPPER
+// ------------------------------
+.section-wrapper {
+  margin-bottom: 40px;
+
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: $text-dark;
+  }
+}
+
+// ------------------------------
+// NOTIFICATION CARD
+// ------------------------------
+.notification-card {
+  display: flex;
+  align-items: flex-start;
+  background-color: $white;
+  box-shadow: $card-shadow;
+  border-radius: $border-radius;
+  padding: 16px;
+  margin-bottom: 16px;
+
+  .icon-col {
+    margin-right: 16px;
+
+    .icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      color: $white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+
+  .content-col {
+    flex: 1;
+
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+
+      .title-dot {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .notif-title {
+          font-size: 16px;
+          font-weight: 600;
+          margin: 0;
+          color: $text-dark;
+        }
+
+        .red-dot {
+          width: 8px;
+          height: 8px;
+          background-color: #ff3b3b; // bright red
+          border-radius: 50%;
+          display: inline-block;
+        }
+      }
+
+      .notif-time {
+        font-size: 14px;
+        color: $gray-text;
+        margin-left: 8px;
+      }
+    }
+
+    .notif-message {
+      font-size: 14px;
+      color: $gray-text;
+      margin: 0 0 8px 0;
+      line-height: 1.4;
+    }
+
+    .notif-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+
+      .btn-reject {
+        background-color: #f2f2f2;
+        border: none;
+        color: #333;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: #e6e6e6;
+        }
+      }
+
+      .btn-accept {
+        background-color: #ff6b00;
+        border: none;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: #e65e00;
+        }
+      }
+    }
+  }
+}
+
+// ------------------------------
+// RESPONSIVE RULES
+// ------------------------------
+
+// For screens up to 768px (tablets)
+@media (max-width: 768px) {
+  .notification-card {
+    flex-direction: column;
+    align-items: stretch;
+
+    .icon-col {
+      margin-right: 0;
+      margin-bottom: 8px;
+    }
+
+    .content-col {
+      .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+    }
+  }
+}
+
+// For screens up to 576px (small phones)
+@media (max-width: 576px) {
+  .page-title {
+    font-size: 24px;
+  }
+
+  .section-title {
+    font-size: 18px;
+  }
+
+  .notification-card {
+    padding: 12px;
+
+    .icon-col .icon-circle {
+      width: 40px;
+      height: 40px;
+      font-size: 18px;
+    }
+
+    .content-col {
+      .content-header {
+        .notif-title {
+          font-size: 15px;
+        }
+        .notif-time {
+          font-size: 13px;
+        }
+      }
+
+      .notif-message {
+        font-size: 13px;
+      }
+
+      .notif-buttons {
+        .btn-reject,
+        .btn-accept {
+          font-size: 13px;
+          padding: 6px 12px;
+        }
+      }
+    }
+  }
+}

@@ -153,6 +153,7 @@ export class GigsListing implements OnInit {
 
   // Navigate to gig details when hamburger button is clicked
   onAction(gig: any): void {
+    console.log("gig",gig)
     // Use gig.id to navigate; if gig.id is not available, you may fallback or show an error.
     if (gig && gig._id) {
       this.router.navigate(['/gigs-info/user', gig._id]);

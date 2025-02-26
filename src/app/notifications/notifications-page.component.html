@@ -1,0 +1,76 @@
+<div class="notifications-container container">
+    <!-- Top Row: Title & Breadcrumb -->
+    <div class="top-row">
+      <h1 class="page-title">Notifications</h1>
+      <div class="breadcrumb">Home / Notifications</div>
+    </div>
+  
+    <!-- NEW NOTIFICATIONS -->
+    <div class="section-wrapper">
+      <h2 class="section-title">New Notifications</h2>
+      <div
+        class="notification-card"
+        *ngFor="let notif of newNotifications"
+      >
+        <!-- Icon Column -->
+        <div class="icon-col">
+          <div
+            class="icon-circle"
+            [ngStyle]="{'background-color': notif.iconColor}"
+          >
+            {{ notif.iconLetter }}
+          </div>
+        </div>
+  
+        <!-- Content Column -->
+        <div class="content-col">
+          <div class="content-header">
+            <div class="title-dot">
+              <h4 class="notif-title">{{ notif.title }}</h4>
+              <span *ngIf="notif.hasRedDot" class="red-dot"></span>
+            </div>
+            <span class="notif-time">{{ notif.time }}</span>
+          </div>
+          <p class="notif-message">{{ notif.message }}</p>
+  
+          <!-- Buttons (only for Quotation Received) -->
+          <div *ngIf="notif.showButtons" class="notif-buttons">
+            <button class="btn-reject">Reject</button>
+            <button class="btn-accept">Accept</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- PAST NOTIFICATIONS -->
+    <div class="section-wrapper">
+      <h2 class="section-title">Past Notifications</h2>
+      <div
+        class="notification-card"
+        *ngFor="let notif of pastNotifications"
+      >
+        <!-- Icon Column -->
+        <div class="icon-col">
+          <div
+            class="icon-circle"
+            [ngStyle]="{'background-color': notif.iconColor}"
+          >
+            {{ notif.iconLetter }}
+          </div>
+        </div>
+  
+        <!-- Content Column -->
+        <div class="content-col">
+          <div class="content-header">
+            <div class="title-dot">
+              <h4 class="notif-title">{{ notif.title }}</h4>
+              <span *ngIf="notif.hasRedDot" class="red-dot"></span>
+            </div>
+            <span class="notif-time">{{ notif.time }}</span>
+          </div>
+          <p class="notif-message">{{ notif.message }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  

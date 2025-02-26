@@ -293,33 +293,42 @@ export class GigsFormComponent implements OnInit {
       services: this.selectedServices
     };
   
-    // If updating, include the gig id
+    // If updating, include the gig id and make PUT request
     if (this.gigId) {
       body.id = this.gigId;
-    }
-  
-    this.http.post<any>('gigs', body, { headers }).subscribe({
-      next: (res) => {
-        if (res.isSuccess && res.result) {
-          if (!this.gigId) {
+      this.http.put<any>('gigs', body, { headers }).subscribe({
+        next: (res) => {
+          if (res.isSuccess && res.result) {
+            alert('Gig updated successfully!');
+            // Optionally, redirect or perform another action after update
+          } else {
+            alert('Failed to update gig');
+          }
+        },
+        error: (err) => {
+          console.error('Error updating gig', err);
+          alert('Error updating gig');
+        }
+      });
+    } else {
+      // If creating, POST request
+      this.http.post<any>('gigs', body, { headers }).subscribe({
+        next: (res) => {
+          if (res.isSuccess && res.result) {
             alert('Gig created successfully!');
             // Redirect to the gigs listing page for providers
             this.router.navigate(['/gigs-listing/provider']);
           } else {
-            alert('Gig updated successfully!');
-            // Optionally, redirect or perform another action after update
+            alert('Failed to create gig');
           }
-        } else {
-          alert('Failed to save gig');
+        },
+        error: (err) => {
+          console.error('Error saving gig', err);
+          alert('Error saving gig');
         }
-      },
-      error: (err) => {
-        console.error('Error saving gig', err);
-        alert('Error saving gig');
-      }
-    });
+      });
+    }
   }
-  
 
   // ==============================
   //  Exit Edit Mode & Clear Form

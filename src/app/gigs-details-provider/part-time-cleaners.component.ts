@@ -3,14 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 
-interface Task {
-  name: string;
-}
-
-interface Note {
-  text: string;
-}
-
 interface StarBreakdown {
   star: number;
   percent: number;
@@ -26,8 +18,8 @@ interface Review {
 
 interface GigResponse {
   result: {
-    services: string[];
-    current_rating: number;
+    services: string[];       // Services (popular tasks)
+    current_rating: number;   // Overall rating (0 if no rating)
     _id: string;
     title: string;
     price: number;
@@ -37,7 +29,7 @@ interface GigResponse {
       _id: string;
       email: string;
     };
-    reviews: any[];
+    reviews: any[];           // Reviews array (empty if none)
     job: any[];
     createdAt: string;
     updatedAt: string;
@@ -57,40 +49,33 @@ export class GigsDetailsProvider implements OnInit {
   // Hero / Main Service Info
   serviceTitle = 'Part-time Cleaners';
   serviceRating = 4.6;
-  serviceReviewsCount = '568k';
+  serviceReviewsCount: number = 568; // dummy count; will be updated from API reviews length
   servicePrice = 62.0; // per hour
   heroImageUrl =
-    'https://media.licdn.com/dms/image/v2/C561BAQHS961kXf5sjA/company-background_10000/company-background_10000/0/1635378826217/cover_genius_cover?e=2147483647&v=beta&t=eyjurIzUddEmGepg99eyr4WCzQZPN0G6Ulwb7zXyQq4'; // Dummy hero image
+    'https://media.licdn.com/dms/image/v2/C561BAQHS961kXf5sjA/company-background_10000/company-background_10000/0/1635378826217/cover_genius_cover?e=2147483647&v=beta&t=eyjurIzUddEmGepg99eyr4WCzQZPN0G6Ulwb7zXyQq4';
 
   // Seller Info
-  sellerName = 'Jessica Strike'; // This will be replaced with seller's email from the API
+  sellerName = 'Jessica Strike';
   sellerServiceType = 'Premium cleaning service';
   sellerRating = 4.6;
   sellerAvatarUrl =
-    'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid'; // Dummy avatar
-  sellerReviewsCount = '568k';
+    'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid';
+  sellerReviewsCount: number = 568;
 
   // Toggle for cleaning supplies
   hasCleaningSupplies = true;
 
-  // Popular tasks
-  tasks: Task[] = [
-    { name: 'Bathroom Cleaning' },
-    { name: 'Sofa / Carpet Vacuuming & Cleaning' },
-    { name: 'Bed makeup & changing of linens' },
-    { name: 'Mopping / Disinfection of floors & bathrooms' },
-    { name: 'Dusting / Wiping of surfaces' },
-    { name: 'Kitchen / dish area' },
-  ];
+  // Instead of tasks, we now use services from API
+  services: string[] = [];
 
-  // Disclaimers
-  notes: Note[] = [
+  // Disclaimers (unchanged)
+  notes: { text: string }[] = [
     { text: 'Visiting / quotation charge if service is not availed $9 USD' },
     { text: 'Please manage your belongings for the security / building management prior to booking' },
     { text: 'Service might differ based on the service by the Vero Services Professional' },
   ];
 
-  // Reviews and Ratings
+  // Reviews and Ratings (dummy defaults)
   overallRating = 4.5;
   overallReviewCount = 72;
 
@@ -103,6 +88,7 @@ export class GigsDetailsProvider implements OnInit {
   ];
 
   reviews: Review[] = [
+    // Dummy reviews – if API returns empty array, UI will show "No feedback available"
     {
       name: 'Abraham Pape',
       rating: 4.2,
@@ -156,18 +142,9 @@ export class GigsDetailsProvider implements OnInit {
     'Superior Stain Removal',
   ];
 
-  // Computed properties
-  get discountAmount(): number {
-    return +(this.basePrice * (this.discountPercent / 100)).toFixed(2);
-  }
-
-  get subTotal(): number {
-    return this.basePrice * this.quantity;
-  }
-
-  get total(): number {
-    return +(this.subTotal - this.discountAmount + this.taxes + this.serviceFee).toFixed(2);
-  }
+  // Descriptions (to be set from API)
+  shortDescription = '';
+  longDescription = '';
 
   constructor(private http: HttpClient, private route: ActivatedRoute) {}
 
@@ -185,31 +162,50 @@ export class GigsDetailsProvider implements OnInit {
       next: (response) => {
         if (response.isSuccess && response.result) {
           const result = response.result;
-          // Replace dummy data with API data if present
+          // Update hero info
           if (result.title) {
             this.serviceTitle = result.title;
           }
           if (result.price) {
             this.servicePrice = result.price;
-            this.basePrice = result.price; // update summary card base price too
+            this.basePrice = result.price;
           }
           if (result.user_id && result.user_id.email) {
             this.sellerName = result.user_id.email;
           }
-          // You can also update additional fields such as short_description or description if needed
-          // For example, you might add properties like:
-          // this.shortDescription = result.short_description;
-          // this.longDescription = result.description;
-          // Similarly, if the API returns reviews data, you can replace the dummy reviews:
+          // Update rating if available; if current_rating is 0, we'll show N/A
+          this.serviceRating = result.current_rating;
+          this.sellerRating = result.current_rating;
+          // Update reviews and counts
           if (result.reviews && result.reviews.length > 0) {
-            // Map or transform the API reviews as needed to match your Review interface
             this.reviews = result.reviews.map((rev: any) => ({
-              name: rev.name, // if API gives a different property, adjust accordingly
+              name: rev.name,
               rating: rev.rating,
               date: rev.date,
               comment: rev.comment,
               avatar: rev.avatar,
             }));
+            this.overallReviewCount = result.reviews.length;
+            this.serviceReviewsCount = result.reviews.length;
+            this.sellerReviewsCount = result.reviews.length;
+          } else {
+            this.reviews = [];
+            this.overallReviewCount = 0;
+            this.serviceReviewsCount = 0;
+            this.sellerReviewsCount = 0;
+          }
+          // Update services (popular tasks)
+          if (result.services && result.services.length > 0) {
+            this.services = result.services;
+          } else {
+            this.services = [];
+          }
+          // Update descriptions
+          if (result.short_description) {
+            this.shortDescription = result.short_description;
+          }
+          if (result.description) {
+            this.longDescription = result.description;
           }
         }
       },
@@ -217,6 +213,19 @@ export class GigsDetailsProvider implements OnInit {
         console.error('Error fetching gig data', err);
       },
     });
+  }
+
+  // Computed properties
+  get discountAmount(): number {
+    return +(this.basePrice * (this.discountPercent / 100)).toFixed(2);
+  }
+
+  get subTotal(): number {
+    return this.basePrice * this.quantity;
+  }
+
+  get total(): number {
+    return +(this.subTotal - this.discountAmount + this.taxes + this.serviceFee).toFixed(2);
   }
 
   // Methods

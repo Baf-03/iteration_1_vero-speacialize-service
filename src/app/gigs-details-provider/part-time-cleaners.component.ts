@@ -28,6 +28,7 @@ interface GigResponse {
     user_id: {
       _id: string;
       email: string;
+      full_name: string
     };
     reviews: any[];           // Reviews array (empty if none)
     job: any[];
@@ -146,7 +147,7 @@ export class GigsDetailsProvider implements OnInit {
   shortDescription = '';
   longDescription = '';
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {}
+  constructor(private http: HttpClient, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     // Get the gig id from the URL params
@@ -170,8 +171,8 @@ export class GigsDetailsProvider implements OnInit {
             this.servicePrice = result.price;
             this.basePrice = result.price;
           }
-          if (result.user_id && result.user_id.email) {
-            this.sellerName = result.user_id.email;
+          if (result.user_id && result.user_id.full_name) {
+            this.sellerName = result.user_id.full_name;
           }
           // Update rating if available; if current_rating is 0, we'll show N/A
           this.serviceRating = result.current_rating;

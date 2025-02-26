@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 interface Gig {
-  name: string;
+  title: string;
   description: string;
   rating: number;
   reviews: string;
@@ -48,7 +48,7 @@ export class ProfilePageComponent {
   // Gigs data
   gigs: Gig[] = [
     {
-      name: 'Jessica Strike',
+      title: 'Jessica Strike',
       description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
       rating: 4.6,
       reviews: '568k',
@@ -57,7 +57,7 @@ export class ProfilePageComponent {
       isLiked: false,
     },
     {
-      name: 'Jessica Strike',
+      title: 'Jessica Strike',
       description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
       rating: 4.6,
       reviews: '568k',
@@ -66,7 +66,7 @@ export class ProfilePageComponent {
       isLiked: false,
     },
     {
-      name: 'Jessica Strike',
+      title: 'Jessica Strike',
       description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
       rating: 4.6,
       reviews: '568k',
@@ -75,7 +75,7 @@ export class ProfilePageComponent {
       isLiked: false,
     },
     {
-      name: 'Jessica Strike',
+      title: 'Jessica Strike',
       description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
       rating: 4.6,
       reviews: '568k',
@@ -84,7 +84,7 @@ export class ProfilePageComponent {
       isLiked: false,
     },
     {
-      name: 'Jessica Strike',
+      title: 'Jessica Strike',
       description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
       rating: 4.6,
       reviews: '568k',
@@ -93,7 +93,7 @@ export class ProfilePageComponent {
       isLiked: false,
     },
     {
-      name: 'Jessica Strike',
+      title: 'Jessica Strike',
       description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
       rating: 4.6,
       reviews: '568k',
@@ -102,7 +102,7 @@ export class ProfilePageComponent {
       isLiked: false,
     },
     {
-      name: 'Jessica Strike',
+      title: 'Jessica Strike',
       description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
       rating: 4.6,
       reviews: '568k',
@@ -111,7 +111,7 @@ export class ProfilePageComponent {
       isLiked: false,
     },
     {
-      name: 'Jessica Strike',
+      title: 'Jessica Strike',
       description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
       rating: 4.6,
       reviews: '568k',

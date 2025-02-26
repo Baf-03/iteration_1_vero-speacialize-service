@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 interface GigResponse {
   result: {
-    services: string[];
+    services: { name: string }[];
     current_rating: number;
     _id: string;
     title: string;
@@ -15,6 +15,7 @@ interface GigResponse {
     user_id: {
       _id: string;
       email: string;
+      full_name: string
     };
     reviews: any[];
     job: any[];
@@ -57,7 +58,7 @@ export class PartTimeCleanersComponent implements OnInit {
   hasCleaningSupplies = true;
 
   // Services from API (replaces the old tasks array)
-  maidServices: string[] = [];
+  maidServices: { name: string }[] = [];
 
   // Short & Long Descriptions from API
   shortDescription = '';
@@ -108,8 +109,8 @@ export class PartTimeCleanersComponent implements OnInit {
           }
 
           // Seller
-          if (result.user_id && result.user_id.email) {
-            this.sellerName = result.user_id.email;
+          if (result.user_id && result.user_id.full_name) {
+            this.sellerName = result.user_id.full_name;
           }
 
           // Current Rating

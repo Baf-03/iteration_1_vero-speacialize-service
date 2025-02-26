@@ -243,7 +243,7 @@ export class GigsFormComponent implements OnInit {
           this.description1 = gig.short_description;
           this.description2 = gig.description;
           this.additionalNotes = '';
-          this.selectedServices = gig.services || [];
+          this.selectedServices = gig.services.map((s: any) => s._id) || [];
         } else {
           alert('Failed to fetch gig details');
           this.clearEditMode();

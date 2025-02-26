@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Firestore, collection, query, where, onSnapshot, getDocs, addDoc, doc, setDoc, orderBy, Timestamp } from '@angular/fire/firestore';
-import { or } from 'firebase/firestore';
+import { or, updateDoc } from 'firebase/firestore';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -30,7 +30,7 @@ export class ChatService {
         // return Array.from(new Map([...customerThreads, ...providerThreads].map(thread => [thread.id, thread])).values());
     }
 
-    async getOrCreateThread(customerId: string, providerId: string, customerName: string, providerName: string) {
+    async getOrCreateThread(customerId: string, providerId: string, customerName: string, providerName: string, jobId: string) {
         const threadsCollection = collection(this.db, 'THREADS');
 
         const threadQuery = query(
@@ -55,11 +55,18 @@ export class ChatService {
                 customerName: customerName,
                 providerName: providerName,
                 created_at: Date.now(),
+                jobId
             };
             await setDoc(newThreadRef, newThread);
             return newThread;
         }
     }
+
+    async responsdMessage(messageId: string, threadId: string) {
+        const messageDocument = doc(this.db, `THREADS/${threadId}/MESSAGES/${messageId}`);
+        await updateDoc(messageDocument, { isReponded: true });
+    }
+
 
     listenToMessages(chatId: string) {
         const messagesCollection = collection(this.db, `THREADS/${chatId}/MESSAGES`);
@@ -94,8 +101,8 @@ export class ChatService {
         console.log("Message sent successfully!");
     }
 
-    async startChat(customerId: string, providerId: string, customerName: string, providerName: string) {
-        const thread = await this.getOrCreateThread(customerId, providerId, customerName, providerName);
+    async startChat(customerId: string, providerId: string, customerName: string, providerName: string, jobId: string) {
+        const thread = await this.getOrCreateThread(customerId, providerId, customerName, providerName, jobId);
         return thread.id;
     }
 }

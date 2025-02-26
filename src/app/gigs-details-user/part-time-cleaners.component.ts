@@ -54,28 +54,23 @@ export class PartTimeCleanersComponent implements OnInit {
     'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid'; // Dummy avatar
   sellerReviewsCount = 0; // from reviews array length
 
-  // Toggle for cleaning supplies
   hasCleaningSupplies = true;
 
-  // Services from API (replaces the old tasks array)
   maidServices: { name: string }[] = [];
 
-  // Short & Long Descriptions from API
   shortDescription = '';
   longDescription = '';
 
-  // If the gig has reviews, we store them. If empty, we show "No feedback"
   reviews: any[] = [];
 
-  // Summary card data
   serviceName = '1-hour express cleaning';
   quantity = 1;
   basePrice = 62.0;
   discountPercent = 0; // currently unused
   taxes = 5.0;
   serviceFee = 3.0;
+  jobId = ''
 
-  // Vero Promise
   veroPromiseItems: string[] = [
     'Verified Professionals',
     'Safe Chemicals',
@@ -87,6 +82,7 @@ export class PartTimeCleanersComponent implements OnInit {
   ngOnInit(): void {
     // Get the gig id from the URL params
     this.gigId = this.route.snapshot.paramMap.get('id');
+    this.jobId = this.route.snapshot.queryParamMap.get('job_id')!;
     if (this.gigId) {
       this.fetchGigData(this.gigId);
     }
@@ -99,7 +95,6 @@ export class PartTimeCleanersComponent implements OnInit {
         if (response.isSuccess && response.result) {
           const result = response.result;
 
-          // Title & Price
           if (result.title) {
             this.serviceTitle = result.title;
           }
@@ -108,27 +103,23 @@ export class PartTimeCleanersComponent implements OnInit {
             this.basePrice = result.price;
           }
 
-          // Seller
           if (result.user_id && result.user_id.full_name) {
             this.sellerName = result.user_id.full_name;
+            this.userId = result.user_id._id!
           }
 
-          // Current Rating
           if (result.current_rating > 0) {
             this.serviceRating = result.current_rating;
             this.sellerRating = result.current_rating;
           } else {
-            // rating is 0 or not provided
             this.serviceRating = 0;
             this.sellerRating = 0;
           }
 
-          // Services
           if (result.services && result.services.length > 0) {
             this.maidServices = result.services;
           }
 
-          // Short & Long Descriptions
           if (result.short_description) {
             this.shortDescription = result.short_description;
           }
@@ -142,7 +133,6 @@ export class PartTimeCleanersComponent implements OnInit {
             this.serviceReviewsCount = result.reviews.length;
             this.sellerReviewsCount = result.reviews.length;
           } else {
-            // no reviews
             this.reviews = [];
             this.serviceReviewsCount = 0;
             this.sellerReviewsCount = 0;
@@ -155,58 +145,6 @@ export class PartTimeCleanersComponent implements OnInit {
     });
   }
 
-  // constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) { }
-
-  // ngOnInit(): void {
-  //   // Get the gig id from the URL params
-  //   const gigId = this.route.snapshot.paramMap.get('id');
-  //   if (gigId) {
-  //     this.fetchGigData(gigId);
-  //   }
-  // }
-
-  // fetchGigData(id: string): void {
-  //   const url = `gigs/${id}`;
-  //   this.http.get<GigResponse>(url).subscribe({
-  //     next: (response) => {
-  //       if (response.isSuccess && response.result) {
-  //         const result = response.result;
-  //         // Replace dummy data with API data if present
-  //         if (result.title) {
-  //           this.serviceTitle = result.title;
-  //         }
-  //         if (result.price) {
-  //           this.servicePrice = result.price;
-  //           this.basePrice = result.price; // update summary card base price too
-  //         }
-  //         if (result.user_id && result.user_id.email) {
-  //           this.sellerName = result.user_id.email;
-  //           this.userId = result.user_id._id;
-  //         }
-  //         // You can also update additional fields such as short_description or description if needed
-  //         // For example, you might add properties like:
-  //         // this.shortDescription = result.short_description;
-  //         // this.longDescription = result.description;
-  //         // Similarly, if the API returns reviews data, you can replace the dummy reviews:
-  //         if (result.reviews && result.reviews.length > 0) {
-  //           // Map or transform the API reviews as needed to match your Review interface
-  //           this.reviews = result.reviews.map((rev: any) => ({
-  //             name: rev.name, // if API gives a different property, adjust accordingly
-  //             rating: rev.rating,
-  //             date: rev.date,
-  //             comment: rev.comment,
-  //             avatar: rev.avatar,
-  //           }));
-  //         }
-  //       }
-  //     },
-  //     error: (err) => {
-  //       console.error('Error fetching gig data', err);
-  //     },
-  //   });
-  // }
-
-  // Computed properties
   get discountAmount(): number {
     return +(this.basePrice * (this.discountPercent / 100)).toFixed(2);
   }
@@ -236,6 +174,6 @@ export class PartTimeCleanersComponent implements OnInit {
   }
 
   hireMe() {
-    this.router.navigate(['/chat'], { queryParams: { recieverId: this.userId.toString() } });
+    this.router.navigate(['/chat'], { queryParams: { gigId: this.gigId, jobId: this.jobId } });
   }
 }

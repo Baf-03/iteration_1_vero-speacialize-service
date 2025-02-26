@@ -83,7 +83,7 @@
         <div class="bkblock-list">
           <div class="bkblock" *ngFor="let item of jobs">
             <div class="bkblock-thumb">
-              <img src="{{ item.category.icon_url }}" alt="" />
+              <img src="{{ item.category?.icon_url }}" alt="" />
             </div>
             <div class="bkblock-txt">
               <h5>{{ item.category.name }}</h5>

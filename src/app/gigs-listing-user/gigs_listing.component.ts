@@ -11,60 +11,14 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./app-vero-handyman.component.scss']
 })
 export class GigsListing implements OnInit {
-  // Data arrays for gigs
-  popularGigs: any[] = [
-    {
-      name: 'Jessica Strike',
-      level: 'Level 1 Seller',
-      description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
-      price: 62,
-      imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid',
-      isLiked: false
-    },
-    {
-      name: 'Jessica Strike',
-      level: 'Level 1 Seller',
-      description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
-      price: 62,
-      imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid',
-      isLiked: false
-    },
-    {
-      name: 'Jessica Strike',
-      level: 'Level 1 Seller',
-      description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
-      price: 62,
-      imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid',
-      isLiked: false
-    },
-    {
-      name: 'Jessica Strike',
-      level: 'Level 1 Seller',
-      description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
-      price: 62,
-      imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid',
-      isLiked: false
-    }
-    // ... additional dummy gigs if needed
-  ];
+  jobId = ''
 
-  // Recommended gigs fetched from the API
+  popularGigs: any[] = []
   recommendedGigs: any[] = [];
 
-  // Default job id in case query param is not provided
-
-  // Dummy values for image and rating if not provided in API response
   private dummyImageUrl = 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid';
-  private dummyRating = 4.6;
-  private dummyReviews = '568k';
+  private dummyRating = 5.0;
+  private dummyReviews = 'N/A';
 
   constructor(
     private http: HttpClient,
@@ -97,9 +51,9 @@ export class GigsListing implements OnInit {
   // Fetch gigs for the given job id from the API
   fetchRecommendedGigs(): void {
     // Check for jobId query parameter; use default if not present
-    const jobId = this.route.snapshot.queryParamMap.get('jobId');
+    this.jobId = this.route.snapshot.queryParamMap.get('jobId')!;
 
-    const apiUrl = `gigs/matched/${jobId}`;
+    const apiUrl = `gigs/matched/${this.jobId}`;
     const token = this.getToken();
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + token
@@ -108,14 +62,10 @@ export class GigsListing implements OnInit {
     this.http.get<any>(apiUrl, { headers }).subscribe({
       next: (res) => {
         if (res.isSuccess && res.result && Array.isArray(res.result)) {
-          // Take the whole gigs array from the response
           const gigs = res.result;
 
-          // Use the first 4 for popular gigs
-          // (If you want to preserve the dummy popular gigs, you could instead merge the values.)
           this.popularGigs = gigs.slice(0, 4).map((gig: any) => ({
             ...gig,
-            // Fallback to dummy values if not provided
             imageUrl: this.dummyImageUrl,
             rating: this.dummyRating,
             reviews: this.dummyReviews,
@@ -124,7 +74,6 @@ export class GigsListing implements OnInit {
 
           console.log(this.popularGigs, this.recommendedGigs, "===recomnded")
 
-          // If there are more than 4 gigs, use the remaining ones for recommended gigs
           this.recommendedGigs = gigs.length > 4 ? gigs.slice(4).map((gig: any) => ({
             ...gig,
             imageUrl: this.dummyImageUrl,
@@ -151,12 +100,9 @@ export class GigsListing implements OnInit {
     }
   }
 
-  // Navigate to gig details when hamburger button is clicked
   onAction(gig: any): void {
-    console.log("gig", gig)
-    // Use gig.id to navigate; if gig.id is not available, you may fallback or show an error.
     if (gig && gig._id) {
-      this.router.navigate(['/gigs-info/user', gig._id]);
+      this.router.navigate(['/gigs-info/user', gig._id], { queryParams: { job_id: this.jobId } });
     } else {
       console.error('Gig id is missing', gig);
     }

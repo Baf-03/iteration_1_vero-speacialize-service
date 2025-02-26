@@ -76,9 +76,9 @@ export const routes: Routes = [
   { path: 'quote-modal', component: QuoteModalPageComponent },
 
   
-  {
-    path: 'wallet',
-  },
+  // {
+  //   path: 'wallet',
+  // },
   {
     path: 'jobs',
     component: CustomerBookingComponent,

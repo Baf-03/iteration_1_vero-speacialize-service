@@ -14,7 +14,7 @@ export class ChatService {
         const threadsCollection = collection(this.db, 'THREADS');
 
         const threadsQuery = query(threadsCollection, or(where('customer_id', '==', userId), where('provider_id', '==', userId)),
-            // orderBy('created_at', 'desc')
+            orderBy('created_at', 'desc')
         );
         // const providerThreadsQuery = query(threadsCollection, where('provider_id', '==', userId), orderBy('created_at', 'desc'));
         const threadSnapshot = await getDocs(threadsQuery);

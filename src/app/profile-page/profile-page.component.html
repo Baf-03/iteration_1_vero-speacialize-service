@@ -1,150 +1,128 @@
-<!-- HERO SECTION (with rounded corners & user info overlay) -->
+<!-- HERO SECTION -->
 <div class="hero-section">
-    <div class="hero-banner">
-      <img [src]="heroBannerUrl" alt="Hero Banner" />
+  <div class="hero-banner">
+    <img [src]="heroBannerUrl" alt="Hero Banner" />
+  </div>
+  <div class="hero-overlay">
+    <div class="avatar-wrapper">
+      <img [src]="userAvatarUrl" alt="User Avatar" class="user-avatar" />
     </div>
-    <div class="hero-overlay">
-      <div class="avatar-wrapper">
-        <img [src]="userAvatarUrl" alt="User Avatar" class="user-avatar" />
+    <div class="user-info">
+      <h1>{{ userName }}</h1>
+      <div class="rating">
+        <span
+          class="star"
+          *ngFor="let i of [1, 2, 3, 4, 5]"
+          [class.filled]="userRating >= i"
+          [class.half]="userRating >= i - 0.5 && userRating < i"
+        >★</span>
+        <span class="rating-value">{{ userRating }} ({{ userReviewsCount }})</span>
       </div>
-      <div class="user-info">
-        <h1>{{ userName }}</h1>
-        <div class="rating">
-          <span
-            class="star"
-            *ngFor="let i of [1,2,3,4,5]"
-            [class.filled]="userRating >= i"
-            [class.half]="(userRating >= i - 0.5) && (userRating < i)"
-            >★</span
-          >
-          <span class="rating-value">{{ userRating }} ({{ userReviewsCount }})</span>
+      <p class="user-role">{{ userRole }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="profile-page container">
+  <div class="top-row">
+    <!-- About Card -->
+    <div class="about-card">
+      <h3>About</h3>
+      <ul class="about-list">
+        <li><strong>Full Name:</strong> {{ aboutFullName }}</li>
+        <li><strong>Status:</strong> {{ aboutStatus }}</li>
+        <li><strong>Role:</strong> {{ aboutRole }}</li>
+        <li><strong>Country:</strong> {{ aboutCountry }}</li>
+        <li><strong>Languages:</strong> {{ aboutLanguages }}</li>
+      </ul>
+      <button class="btn-message" (click)="onMessage()">Message</button>
+    </div>
+
+    <!-- Job Profile Card -->
+    <div class="job-profile-card">
+      <h3>Job Profile</h3>
+      <div class="job-profile-grid">
+        <div class="field-group">
+          <label>Name Of Company/Business</label>
+          <div class="field-value">{{ companyName }}</div>
         </div>
-        <p class="user-role">{{ userRole }}</p>
+        <div class="field-group">
+          <label>Work Email Address</label>
+          <div class="field-value">{{ workEmail }}</div>
+        </div>
+        <div class="field-group">
+          <label>Work Phone Number</label>
+          <div class="field-value">{{ workPhone }}</div>
+        </div>
+        <div class="field-group">
+          <label>Total Experience</label>
+          <div class="field-value">{{ totalExperience }}</div>
+        </div>
+        <div class="field-group">
+          <label>Website</label>
+          <div class="field-value">{{ website }}</div>
+        </div>
+        <div class="field-group">
+          <label>Location</label>
+          <div class="field-value">{{ location }}</div>
+        </div>
       </div>
     </div>
   </div>
-  
-  <!-- MAIN CONTENT -->
-  <div class="profile-page container">
-    <!-- TOP ROW: "About" on the left, "Job Profile" on the right -->
-    <div class="top-row">
-      <!-- About Card -->
-      <div class="about-card">
-        <h3>About</h3>
-        <ul class="about-list">
-          <li><strong>Full Name:</strong> {{ aboutFullName }}</li>
-          <li><strong>Status:</strong> {{ aboutStatus }}</li>
-          <li><strong>Role:</strong> {{ aboutRole }}</li>
-          <li><strong>Country:</strong> {{ aboutCountry }}</li>
-          <li><strong>Languages:</strong> {{ aboutLanguages }}</li>
-        </ul>
-        <button class="btn-message" (click)="onMessage()">Message</button>
-      </div>
-  
-      <!-- Job Profile Card -->
-      <div class="job-profile-card">
-        <h3>Job Profile</h3>
-        <div class="job-profile-grid">
-          <div class="field-group">
-            <label>Name Of Company/Business</label>
-            <div class="field-value">
-              {{ companyName }}
-              <i class="icon icon-briefcase"></i>
-            </div>
-          </div>
-          <div class="field-group">
-            <label>Work Email Address</label>
-            <div class="field-value">
-              {{ workEmail }}
-              <i class="icon icon-email"></i>
-            </div>
-          </div>
-          <div class="field-group">
-            <label>Work Phone Number</label>
-            <div class="field-value">
-              {{ workPhone }}
-              <i class="icon icon-phone"></i>
-            </div>
-          </div>
-          <div class="field-group">
-            <label>Total Experience</label>
-            <div class="field-value">
-              {{ totalExperience }}
-              <i class="icon icon-award"></i>
-            </div>
-          </div>
-          <div class="field-group">
-            <label>Website</label>
-            <div class="field-value">
-              {{ website }}
-              <i class="icon icon-link"></i>
-            </div>
-          </div>
-          <div class="field-group">
-            <label>Location</label>
-            <div class="field-value">
-              {{ location }}
-              <i class="icon icon-map"></i>
-            </div>
+
+  <!-- SERVICES -->
+  <div class="services-section">
+    <h4>Services</h4>
+    <div class="services-list">
+      <span class="service-chip" *ngFor="let service of services">{{ service }}</span>
+    </div>
+  </div>
+
+  <!-- GIGS -->
+  <div class="gigs-section">
+    <h4>Gigs</h4>
+    <div class="gigs-grid">
+      <div class="gig-card" *ngFor="let gig of gigs">
+        <div class="gig-header">
+          <img class="gig-avatar" [src]="gig.imageUrl" alt="Gig" />
+          <div class="gig-info">
+            <h5>{{ gig.title }}</h5>
+            <p class="gig-description">{{ gig.description }}</p>
           </div>
         </div>
-      </div>
-    </div>
-  
-    <!-- SERVICES -->
-    <div class="services-section">
-      <h4>Services</h4>
-      <div class="services-list">
-        <span class="service-chip" *ngFor="let service of services">{{ service }}</span>
-      </div>
-    </div>
-  
-    <!-- GIGS -->
-    <div class="gigs-section">
-      <h4>Gigs</h4>
-      <div class="gigs-grid">
-        <div class="gig-card" *ngFor="let gig of gigs">
-          <div class="gig-header">
-            <img class="gig-avatar" [src]="gig.imageUrl" alt="Gig" />
-            <div class="gig-info">
-              <h5>{{ gig.title }}</h5>
-              <p class="gig-description">{{ gig.description }}</p>
-            </div>
+        <div class="gig-footer">
+          <div class="gig-rating">
+            <span
+              class="star"
+              *ngFor="let i of [1, 2, 3, 4, 5]"
+              [class.filled]="gig.rating >= i"
+              [class.half]="gig.rating >= i - 0.5 && gig.rating < i"
+            >★</span>
+            <span class="rating-text">{{ gig.rating }} ({{ gig.reviews }})</span>
           </div>
-          <div class="gig-footer">
-            <div class="gig-rating">
-              <span
-                class="star"
-                *ngFor="let i of [1,2,3,4,5]"
-                [class.filled]="gig.rating >= i"
-                [class.half]="(gig.rating >= i - 0.5) && (gig.rating < i)"
-                >★</span
-              >
-              <span class="rating-text">{{ gig.rating }} ({{ gig.reviews }})</span>
-            </div>
-            <div class="gig-actions">
-              <div class="gig-price">Starting at <strong>\${{ gig.price }}/hr</strong></div>
-              <button class="like-btn" [class.active]="gig.isLiked" (click)="toggleLike(gig)">
-                <span class="heart-icon">&#10084;</span>
-              </button>
-            </div>
+          <div class="gig-actions">
+            <div class="gig-price">Starting at <strong>\${{ gig.price }}/hr</strong></div>
+            <button class="like-btn" [class.active]="gig.isLiked" (click)="toggleLike(gig)">
+              <span class="heart-icon">&#10084;</span>
+            </button>
           </div>
         </div>
-      </div>
-    </div>
-  
-    <!-- WORK COVERAGE -->
-    <div class="work-coverage-section">
-      <h4>Work Coverage</h4>
-      <p class="coverage-type">{{ workCoverage }}</p>
-    </div>
-  
-    <!-- LICENSES -->
-    <div class="licenses-section">
-      <h4>Licenses</h4>
-      <div class="license-card">
-        <img [src]="licenseImageUrl" alt="License" />
       </div>
     </div>
   </div>
-  
+
+  <!-- WORK COVERAGE -->
+  <div class="work-coverage-section">
+    <h4>Work Coverage</h4>
+    <!-- <p class="coverage-type">{{ workCoverage }}</p> -->
+  </div>
+
+  <!-- LICENSES -->
+  <div class="licenses-section">
+    <h4>Licenses</h4>
+    <div class="license-card">
+      <!-- <img [src]="licenseImageUrl" alt="License" /> -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+<!-- <div class="page-wrapper"> -->
+<main class="chat-container">
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+        <div class="search-bar">
+            <input type="search" placeholder="Search here..." />
+        </div>
+
+        <ul class="contact-list">
+            <li (click)="selectChat(chat.id)" class="contact-item" *ngFor="let chat of chatItems" [class.active]="chat.name === (isProvider
+                ? selectedChat.customerName : selectedChat.providerName)">
+                <div class="contact-avatar">
+                    <!-- Use any avatar source or a random picsum -->
+                    <img src="https://picsum.photos/40" alt="Avatar" />
+                </div>
+                <div class="contact-info">
+                    <div class="contact-name">{{ chat.name }}</div>
+                    <div class="contact-lastmsg">{{ chat.text }}</div>
+                </div>
+                <div class="contact-time">{{ chat.time }}</div>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- RIGHT CHAT WINDOW -->
+    <section class="chat-window">
+        <header class="chat-header">
+            <div class="chat-user-info">
+                <h2>{{isProvider ? selectedChat.customerName : selectedChat.providerName}}</h2>
+                <!-- <span class="chat-user-status">Online</span> -->
+            </div>
+            <button *ngIf="!isProvider" (click)="requestQuote()" class=" request-quote-btn">Request a Quote</button>
+        </header>
+
+        <div class="messages">
+            <ng-container *ngFor="let msg of messages">
+                <div class="message" [class.self]="msg.self" *ngIf="!msg.isEstimation && !msg.isAskEstimation">
+                    <div class="message-author" *ngIf="!msg.self">
+                        {{ msg.author }}
+                        <span class="author-role" *ngIf="msg.role">({{ msg.role }})</span>
+                    </div>
+                    <div class="message-text">
+                        {{ msg.text }}
+                    </div>
+                    <div class="message-time">{{ msg.time }}</div>
+                </div>
+                <div class="quote-message" *ngIf="msg.isAskEstimation">
+                    <p>
+                        <strong> {{isProvider? selectedChat.customerName: "You"}}, {{msg.text}}</strong>
+                    </p>
+                    <div class="quote-actions" *ngIf="isProvider">
+                        <button class="accept" (click)="provideQoutation()">Provide Qoutation</button>
+                    </div>
+                </div>
+                <div class="quote-message" *ngIf="msg.isEstimation">
+                    <p>
+                        {{isProvider ? "You": selectedChat.providerName}} {{ msg.text }}
+                    </p>
+                    <div class="quote-actions" *ngIf="!isProvider">
+                        <button class="reject">Reject</button>
+                        <button class="accept" (click)="acceptQoutation(msg.text)">Accept</button>
+                    </div>
+                </div>
+                <div class="quote-message" *ngIf="msg.isStatus">
+                    <p>
+                        {{isProvider ? selectedChat.customerName: "You"}} {{ msg.text }}
+                    </p>
+                </div>
+            </ng-container>
+        </div>
+
+        <footer class="chat-footer">
+            <input type="text" [(ngModel)]="messageText" placeholder="Start typing..." />
+            <button (click)="sendMessage()">Send</button>
+        </footer>
+    </section>
+</main>
+
+<!-- </div> -->

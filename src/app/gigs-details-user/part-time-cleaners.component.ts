@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface GigResponse {
   result: {
-    services: string[];
+    services: { name: string }[];
     current_rating: number;
     _id: string;
     title: string;
@@ -15,6 +15,7 @@ interface GigResponse {
     user_id: {
       _id: string;
       email: string;
+      full_name: string
     };
     reviews: any[];
     job: any[];
@@ -37,6 +38,7 @@ export class PartTimeCleanersComponent implements OnInit {
   gigId: string | null = null;
 
   // Hero / Main Service Info
+  userId = ''
   serviceTitle = 'Part-time Cleaners';
   serviceRating = 0; // We'll set from API's current_rating
   serviceReviewsCount = 0; // We'll set from reviews array length
@@ -56,7 +58,7 @@ export class PartTimeCleanersComponent implements OnInit {
   hasCleaningSupplies = true;
 
   // Services from API (replaces the old tasks array)
-  maidServices: string[] = [];
+  maidServices: { name: string }[] = [];
 
   // Short & Long Descriptions from API
   shortDescription = '';
@@ -80,7 +82,7 @@ export class PartTimeCleanersComponent implements OnInit {
     'Superior Stain Removal',
   ];
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {}
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     // Get the gig id from the URL params
@@ -107,8 +109,8 @@ export class PartTimeCleanersComponent implements OnInit {
           }
 
           // Seller
-          if (result.user_id && result.user_id.email) {
-            this.sellerName = result.user_id.email;
+          if (result.user_id && result.user_id.full_name) {
+            this.sellerName = result.user_id.full_name;
           }
 
           // Current Rating
@@ -153,6 +155,57 @@ export class PartTimeCleanersComponent implements OnInit {
     });
   }
 
+  // constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) { }
+
+  // ngOnInit(): void {
+  //   // Get the gig id from the URL params
+  //   const gigId = this.route.snapshot.paramMap.get('id');
+  //   if (gigId) {
+  //     this.fetchGigData(gigId);
+  //   }
+  // }
+
+  // fetchGigData(id: string): void {
+  //   const url = `gigs/${id}`;
+  //   this.http.get<GigResponse>(url).subscribe({
+  //     next: (response) => {
+  //       if (response.isSuccess && response.result) {
+  //         const result = response.result;
+  //         // Replace dummy data with API data if present
+  //         if (result.title) {
+  //           this.serviceTitle = result.title;
+  //         }
+  //         if (result.price) {
+  //           this.servicePrice = result.price;
+  //           this.basePrice = result.price; // update summary card base price too
+  //         }
+  //         if (result.user_id && result.user_id.email) {
+  //           this.sellerName = result.user_id.email;
+  //           this.userId = result.user_id._id;
+  //         }
+  //         // You can also update additional fields such as short_description or description if needed
+  //         // For example, you might add properties like:
+  //         // this.shortDescription = result.short_description;
+  //         // this.longDescription = result.description;
+  //         // Similarly, if the API returns reviews data, you can replace the dummy reviews:
+  //         if (result.reviews && result.reviews.length > 0) {
+  //           // Map or transform the API reviews as needed to match your Review interface
+  //           this.reviews = result.reviews.map((rev: any) => ({
+  //             name: rev.name, // if API gives a different property, adjust accordingly
+  //             rating: rev.rating,
+  //             date: rev.date,
+  //             comment: rev.comment,
+  //             avatar: rev.avatar,
+  //           }));
+  //         }
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error('Error fetching gig data', err);
+  //     },
+  //   });
+  // }
+
   // Computed properties
   get discountAmount(): number {
     return +(this.basePrice * (this.discountPercent / 100)).toFixed(2);
@@ -163,13 +216,9 @@ export class PartTimeCleanersComponent implements OnInit {
   }
 
   get total(): number {
-    return +(
-      this.subTotal -
-      this.discountAmount +
-      this.taxes +
-      this.serviceFee
-    ).toFixed(2);
+    return +(this.subTotal - this.discountAmount + this.taxes + this.serviceFee).toFixed(2);
   }
+
 
   // Methods
   toggleCleaningSupplies() {
@@ -187,6 +236,6 @@ export class PartTimeCleanersComponent implements OnInit {
   }
 
   hireMe() {
-    alert(`You have hired this service for ${this.quantity} hour(s)!`);
+    this.router.navigate(['/chat'], { queryParams: { recieverId: this.userId.toString() } });
   }
 }

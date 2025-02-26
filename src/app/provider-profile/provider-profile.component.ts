@@ -8,7 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 import { LocalStorageService } from '../shared/local-storage.service';
 
 export interface Gig {
-  name: string;
+  title: string;
   description: string;
   rating: number;
   reviews: string;
@@ -96,7 +96,7 @@ export class ProviderProfileComponent implements OnInit {
         // Adjust the mapping as needed.
         this.gigs = res.result.map((gig: any) => {
           return {
-            name: gig.title,
+            title: gig.title,
             description: gig.short_description,
             rating: gig.current_rating,
             reviews: Array.isArray(gig.reviews) ? gig.reviews.length.toString() : '0',

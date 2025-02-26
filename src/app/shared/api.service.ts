@@ -19,6 +19,19 @@ export class ApiService {
     return this.http.post('provider-job/accept-new-job', body, { headers }).toPromise();
   }
 
+  fetchJob(id: string): Promise<any> {
+    const token = localStorage.getItem('accessToken') || '';
+    const headers = { Authorization: 'Bearer ' + token };
+    return this.http.get(`job/detail/${id}`, { headers }).toPromise();
+  }
+
+  fetchGig(id: string): Promise<any> {
+    const token = localStorage.getItem('accessToken') || '';
+    const headers = { Authorization: 'Bearer ' + token };
+    return this.http.get(`gigs/${id}`, { headers }).toPromise();
+   
+  }
+
   constructor(private http: HttpClient) { }
 
   registerProvider(body: any): Promise<any> {

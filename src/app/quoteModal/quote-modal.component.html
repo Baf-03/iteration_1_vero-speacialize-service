@@ -1,32 +1,14 @@
-<div style="padding: 20px;">
-
-    <button class="btn-submit" (click)="openModal()">Send Quote</button>
-  
-    <!-- Display last submitted quote if available -->
-    <!-- <div *ngIf="finalQuoteAmount !== null" style="margin-top: 16px;">
-      <strong>Last submitted quote:</strong> ${{ finalQuoteAmount }}
-    </div> -->
-  </div>
-  
-  <!-- Modal (conditionally rendered using ngIf) -->
-  <div *ngIf="showModal" class="modal-overlay">
-    <div class="modal-container">
-      <h2 class="modal-title">Send Quote</h2>
-      <label for="quoteAmount" class="modal-label">Enter Amount</label>
-      <div class="modal-input-wrapper">
-        <span class="currency-prefix">$</span>
-        <input
-          id="quoteAmount"
-          class="modal-input"
-          type="text"
-          [value]="amount"
-          (input)="onInputChange($event)"
-        />
-      </div>
-      <div class="modal-actions">
-        <button class="btn-cancel" (click)="onModalCancel()">Cancel</button>
-        <button class="btn-submit" (click)="onModalSubmit()">Submit</button>
-      </div>
+<div *ngIf="showModal" class="modal-overlay">
+  <div class="modal-container">
+    <h2 class="modal-title">Send Quote</h2>
+    <label for="quoteAmount" class="modal-label">Enter Amount</label>
+    <div class="modal-input-wrapper">
+      <span class="currency-prefix">$</span>
+      <input id="quoteAmount" class="modal-input" type="text" [value]="amount" (input)="onInputChange($event)" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="onModalCancel()">Cancel</button>
+      <button class="btn-submit" (click)="onModalSubmit()">Submit</button>
     </div>
   </div>
-  
+</div>

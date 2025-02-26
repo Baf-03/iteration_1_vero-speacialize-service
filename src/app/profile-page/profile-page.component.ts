@@ -23,8 +23,8 @@ export class ProfilePageComponent {
   heroBannerUrl = 'https://media.licdn.com/dms/image/v2/C561BAQHS961kXf5sjA/company-background_10000/company-background_10000/0/1635378826217/cover_genius_cover?e=2147483647&v=beta&t=eyjurIzUddEmGepg99eyr4WCzQZPN0G6Ulwb7zXyQq4';
   userAvatarUrl = 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid';
   userName = 'Simon Lewis';
-  userRating = 4.6;
-  userReviewsCount = '568k';
+  userRating = 5.0;
+  userReviewsCount = 'N/A';
   userRole = 'Vendor';
 
   // About section
@@ -50,8 +50,8 @@ export class ProfilePageComponent {
     {
       title: 'Jessica Strike',
       description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
+      rating: 5.0,
+      reviews: 'N/A',
       price: 62,
       imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
       isLiked: false,
@@ -59,8 +59,8 @@ export class ProfilePageComponent {
     {
       title: 'Jessica Strike',
       description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
+      rating: 5.0,
+      reviews: 'N/A',
       price: 62,
       imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
       isLiked: false,
@@ -68,8 +68,8 @@ export class ProfilePageComponent {
     {
       title: 'Jessica Strike',
       description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
+      rating: 5.0,
+      reviews: 'N/A',
       price: 62,
       imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
       isLiked: false,
@@ -77,8 +77,8 @@ export class ProfilePageComponent {
     {
       title: 'Jessica Strike',
       description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
+      rating: 5.0,
+      reviews: 'N/A',
       price: 62,
       imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
       isLiked: false,
@@ -86,8 +86,8 @@ export class ProfilePageComponent {
     {
       title: 'Jessica Strike',
       description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
+      rating: 5.0,
+      reviews: 'N/A',
       price: 62,
       imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
       isLiked: false,
@@ -95,8 +95,8 @@ export class ProfilePageComponent {
     {
       title: 'Jessica Strike',
       description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
+      rating: 5.0,
+      reviews: 'N/A',
       price: 62,
       imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
       isLiked: false,
@@ -104,8 +104,8 @@ export class ProfilePageComponent {
     {
       title: 'Jessica Strike',
       description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
+      rating: 5.0,
+      reviews: 'N/A',
       price: 62,
       imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
       isLiked: false,
@@ -113,8 +113,8 @@ export class ProfilePageComponent {
     {
       title: 'Jessica Strike',
       description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
+      rating: 5.0,
+      reviews: 'N/A',
       price: 62,
       imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
       isLiked: false,

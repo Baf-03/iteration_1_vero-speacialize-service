@@ -49,7 +49,7 @@ interface GigResponse {
 export class GigsDetailsProvider implements OnInit {
   // Hero / Main Service Info
   serviceTitle = 'Part-time Cleaners';
-  serviceRating = 4.6;
+  serviceRating = 5.0;
   serviceReviewsCount: number = 568; // dummy count; will be updated from API reviews length
   servicePrice = 62.0; // per hour
   heroImageUrl =
@@ -58,7 +58,7 @@ export class GigsDetailsProvider implements OnInit {
   // Seller Info
   sellerName = 'Jessica Strike';
   sellerServiceType = 'Premium cleaning service';
-  sellerRating = 4.6;
+  sellerRating = 5.0;
   sellerAvatarUrl =
     'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid';
   sellerReviewsCount: number = 568;
@@ -197,7 +197,7 @@ export class GigsDetailsProvider implements OnInit {
           }
           // Update services (popular tasks)
           if (result.services && result.services.length > 0) {
-            this.services = result.services;
+            this.services = result.services.map((s: any) => s.name);
           } else {
             this.services = [];
           }

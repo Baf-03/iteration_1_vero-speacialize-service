@@ -17,26 +17,49 @@ export class ChatComponent implements OnInit {
     chatItems: any[] = [];
     messages: any[] = [];
     userId = "";
+    messageId = ""
     recieverId = "";
+    gigId = ""
+    jobId = ""
+    providerName = ""
     selectedChatId: string | null = null;
     isProvider = true;
     messageText = "";
     selectedChat = {} as any
     user = {} as any
+    showModal = false
+    amount = ""
+    finalQuoteAmount = 0
 
     constructor(private chatService: ChatService, private route: ActivatedRoute, private localStorageService: LocalStorageService, private apiService: ApiService) { }
 
     async ngOnInit() {
         this.route.queryParamMap.subscribe(params => {
-            this.recieverId = params.get('recieverId') || "";
+            this.gigId = params.get('gigId') || "";
+            this.jobId = params.get('jobId') || "";
         });
 
         this.user = this.localStorageService.getUser();
         this.isProvider = this.user.user_type === "ServiceProvider";
         this.userId = this.user._id
 
+        this.fetchChat()
+
+        if (this.gigId) {
+            await this.fetchGigDetails()
+            const chatId = await this.startChat()
+            this.selectChat(chatId)
+        }
+
+
+        // if (this.jobId) {
+        //     this.fetchJobDetails()
+        // }
+    }
+
+    async fetchChat() {
         const chats = await this.chatService.getAllThreadsForUser(this.userId);
-        console.log(chats, "===chats")
+
         this.chatItems = chats.map((chat: any) => ({
             ...chat,
             name: chat.customer_id === this.userId ? chat.providerName : chat.customerName,
@@ -58,6 +81,15 @@ export class ChatComponent implements OnInit {
         }
     }
 
+
+    async fetchGigDetails() {
+        const response = await this.apiService.fetchGig(this.gigId)
+        if (response.isSuccess) {
+            this.recieverId = response.result.user_id._id
+            this.providerName = response.result.user_id.full_name
+        }
+    }
+
     getFormattedTime(createdAt: number) {
         const date = new Date(createdAt);
         return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
@@ -66,7 +98,9 @@ export class ChatComponent implements OnInit {
     async selectChat(chatId: string) {
         this.selectedChatId = chatId;
         this.selectedChat = this.chatItems.find(chat => chat.id === chatId)!
-        console.log(chatId, "===chatID")
+
+        this.recieverId = this.isProvider ? this.selectedChat.customer_id : this.selectedChat.provider_id
+
         this.chatService.listenToMessages(chatId);
         this.chatService.messages$.subscribe(messages => {
             this.messages = messages.map((msg: any) => {
@@ -92,30 +126,33 @@ export class ChatComponent implements OnInit {
         );
     }
 
-    async provideQoutation() {
-        await this.chatService.sendMessage(
-            {
-                chatId: this.selectedChatId!,
-                text: "Sent Qoute : " + 250,
-                senderId: this.userId,
-                recieverId: this.recieverId,
-                author: this.user.full_name,
-                isEstimation: true
-            },
-        );
+    async provideQoutation(msgId: string) {
+        // await this.chatService.sendMessage(
+        //     {
+        //         chatId: this.selectedChatId!,
+        //         text: "Sent Qoute : " + 250,
+        //         senderId: this.userId,
+        //         recieverId: this.recieverId,
+        //         author: this.user.full_name,
+        //         isEstimation: true
+        //     },
+        // );
+        this.openModal()
+        this.messageId = msgId
     }
 
-    async acceptQoutation(msg: string) {
-        const amount = msg.split(":")[1]
+    async acceptQoutation(msg: string, msgId: string) {
+        const amount = msg.split(": ")[1]
 
         const payload = {
             customer_id: this.selectedChat.customer_id,
             provider_id: this.selectedChat.provider_id,
             work_price: amount,
-            job_id: this.selectedChat.job_id
+            job_id: this.selectedChat.job_id || this.jobId
         }
-        const response = await this.apiService.acceptJob(payload)
-        if (response.success) {
+
+        const response = await this.apiService.acceptJob(payload);
+        if (response.isSuccess) {
             await this.chatService.sendMessage(
                 {
                     chatId: this.selectedChat.id!,
@@ -126,14 +163,32 @@ export class ChatComponent implements OnInit {
                     isStatus: true
                 },
             );
+            this.chatService.responsdMessage(msgId, this.selectedChat.id!)
         }
+    }
+
+    async rejectQuotation(id: string) {
+        await Promise.all([
+            this.chatService.responsdMessage(id, this.selectedChat.id!),
+            this.chatService.sendMessage(
+                {
+                    chatId: this.selectedChat.id!,
+                    text: "Rejected the quotation",
+                    senderId: this.userId,
+                    recieverId: this.recieverId,
+                    author: this.user.full_name,
+                    isStatus: true
+                },
+            )
+        ])
+
     }
 
     async sendMessage() {
         let chatId = this.selectedChatId
-        if (!this.selectedChatId && this.recieverId) {
-            chatId = await this.startChat()
-        }
+        // if (!this.selectedChatId && this.recieverId) {
+        //     chatId = await this.startChat()
+        // }
 
         await this.chatService.sendMessage(
             {
@@ -149,16 +204,19 @@ export class ChatComponent implements OnInit {
         this.messageText = "";
     }
 
-
     async startChat() {
-        const customerId = this.isProvider ? this.recieverId : this.userId;
-        const providerId = !this.isProvider ? this.recieverId : this.userId;
-        const customerName = this.isProvider ? this.selectedChat.customerName : this.user.full_name;
-        const providerName = this.isProvider ? this.user.full_name : (this.selectedChat.providerName || "Faraz Ahmed");
+        // const customerId = this.isProvider ? this.recieverId : this.userId;
+        // const providerId = !this.isProvider ? this.recieverId : this.userId;
+        // const customerName = this.isProvider ? this.selectedChat.customerName : this.user.full_name;
+        // const providerName = this.isProvider ? this.user.full_name : (this.selectedChat.providerName || "Faraz Ahmed");
 
-        console.log(providerName, "==providerName")
+        const customerId = this.userId
+        const providerId = this.recieverId
+        const customerName = this.user.full_name
+        const providerName = this.providerName
 
-        this.selectedChatId = await this.chatService.startChat(customerId, providerId, customerName, providerName);
+        console.log({ customerId, providerId, customerName, providerName }, "===details")
+        this.selectedChatId = await this.chatService.startChat(customerId, providerId, customerName, providerName, this.jobId);
 
         this.chatService.listenToMessages(this.selectedChatId);
         this.chatService.messages$.subscribe(messages => {
@@ -169,9 +227,53 @@ export class ChatComponent implements OnInit {
             }));
         });
 
-        console.log("Chat started with thread ID:", this.selectedChatId);
         return this.selectedChatId
 
+    }
+
+    openModal(): void {
+        this.finalQuoteAmount = 0
+        this.amount = ""
+        this.showModal = true;
+    }
+
+    onModalCancel(): void {
+        this.showModal = false;
+    }
+
+    async onModalSubmit() {
+        const parsed = parseFloat(this.amount);
+        const finalAmount = isNaN(parsed) ? 0 : parsed;
+        this.finalQuoteAmount = finalAmount;
+
+        this.chatService.responsdMessage(this.messageId, this.selectedChat.id!),
+
+
+            await this.chatService.sendMessage(
+                {
+                    chatId: this.selectedChatId!,
+                    text: "Sent Qoute : " + this.finalQuoteAmount,
+                    senderId: this.userId,
+                    recieverId: this.recieverId,
+                    author: this.user.full_name,
+                    isEstimation: true
+                },
+            );
+
+        this.showModal = false;
+    }
+
+    onInputChange(event: any): void {
+        let inputValue: string = event.target.value || '';
+        inputValue = inputValue.replace(/[^0-9.]/g, '');
+        const firstDecimalIndex = inputValue.indexOf('.');
+        if (firstDecimalIndex !== -1) {
+            inputValue =
+                inputValue.substring(0, firstDecimalIndex + 1) +
+                inputValue.substring(firstDecimalIndex + 1).replace(/\./g, '');
+        }
+
+        this.amount = inputValue;
     }
 
 }

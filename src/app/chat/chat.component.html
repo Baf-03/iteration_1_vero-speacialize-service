@@ -1,16 +1,13 @@
-<!-- <div class="page-wrapper"> -->
 <main class="chat-container">
-    <!-- LEFT SIDEBAR -->
     <aside class="sidebar">
-        <div class="search-bar">
+        <!-- <div class="search-bar">
             <input type="search" placeholder="Search here..." />
-        </div>
+        </div> -->
 
         <ul class="contact-list">
             <li (click)="selectChat(chat.id)" class="contact-item" *ngFor="let chat of chatItems" [class.active]="chat.name === (isProvider
                 ? selectedChat.customerName : selectedChat.providerName)">
                 <div class="contact-avatar">
-                    <!-- Use any avatar source or a random picsum -->
                     <img src="https://picsum.photos/40" alt="Avatar" />
                 </div>
                 <div class="contact-info">
@@ -23,7 +20,7 @@
     </aside>
 
     <!-- RIGHT CHAT WINDOW -->
-    <section class="chat-window">
+    <section *ngIf="selectedChatId" class="chat-window">
         <header class="chat-header">
             <div class="chat-user-info">
                 <h2>{{isProvider ? selectedChat.customerName : selectedChat.providerName}}</h2>
@@ -34,7 +31,8 @@
 
         <div class="messages">
             <ng-container *ngFor="let msg of messages">
-                <div class="message" [class.self]="msg.self" *ngIf="!msg.isEstimation && !msg.isAskEstimation">
+                <div class="message" [class.self]="msg.self"
+                    *ngIf="!msg.isEstimation && !msg.isAskEstimation && !msg.isStatus">
                     <div class="message-author" *ngIf="!msg.self">
                         {{ msg.author }}
                         <span class="author-role" *ngIf="msg.role">({{ msg.role }})</span>
@@ -44,21 +42,21 @@
                     </div>
                     <div class="message-time">{{ msg.time }}</div>
                 </div>
-                <div class="quote-message" *ngIf="msg.isAskEstimation">
+                <div class="quote-message" *ngIf="msg.isAskEstimation" [class.self]="msg.self">
                     <p>
                         <strong> {{isProvider? selectedChat.customerName: "You"}}, {{msg.text}}</strong>
                     </p>
-                    <div class="quote-actions" *ngIf="isProvider">
-                        <button class="accept" (click)="provideQoutation()">Provide Qoutation</button>
+                    <div class="quote-actions" *ngIf="isProvider && !msg.isReponded">
+                        <button class="accept" (click)="provideQoutation(msg.id)">Provide Qoutation</button>
                     </div>
                 </div>
-                <div class="quote-message" *ngIf="msg.isEstimation">
+                <div class="quote-message" *ngIf="msg.isEstimation" [class.self]="msg.self">
                     <p>
-                        {{isProvider ? "You": selectedChat.providerName}} {{ msg.text }}
+                        {{isProvider ? "You": selectedChat.providerName}} {{ msg.text }} $
                     </p>
-                    <div class="quote-actions" *ngIf="!isProvider">
-                        <button class="reject">Reject</button>
-                        <button class="accept" (click)="acceptQoutation(msg.text)">Accept</button>
+                    <div class="quote-actions" *ngIf="!isProvider && !msg.isReponded">
+                        <button class="reject" (click)="rejectQuotation(msg.id)">Reject</button>
+                        <button class="accept" (click)="acceptQoutation(msg.text,msg.id)">Accept</button>
                     </div>
                 </div>
                 <div class="quote-message" *ngIf="msg.isStatus">
@@ -74,6 +72,23 @@
             <button (click)="sendMessage()">Send</button>
         </footer>
     </section>
+    <section *ngIf="!selectedChatId" class="chat-window unselected">
+        <p>
+            Please Select a Chat to start the conversation
+        </p>
+    </section>
 </main>
-
-<!-- </div> -->
+<div *ngIf="showModal" class="modal-overlay">
+    <div class="modal-container">
+        <h2 class="modal-title">Send Quote</h2>
+        <label for="quoteAmount" class="modal-label">Enter Amount</label>
+        <div class="modal-input-wrapper">
+            <span class="currency-prefix">$</span>
+            <input id="quoteAmount" class="modal-input" type="text" [value]="amount" (input)="onInputChange($event)" />
+        </div>
+        <div class="modal-actions">
+            <button class="btn-cancel" (click)="onModalCancel()">Cancel</button>
+            <button class="btn-submit" (click)="onModalSubmit()">Submit</button>
+        </div>
+    </div>
+</div>

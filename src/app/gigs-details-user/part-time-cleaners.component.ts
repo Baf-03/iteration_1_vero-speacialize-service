@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 interface GigResponse {
   result: {
-    services: string[];
+    services: { name: string }[];
     current_rating: number;
     _id: string;
     title: string;
@@ -15,6 +15,7 @@ interface GigResponse {
     user_id: {
       _id: string;
       email: string;
+      full_name: string
     };
     reviews: any[];
     job: any[];
@@ -37,6 +38,7 @@ export class PartTimeCleanersComponent implements OnInit {
   gigId: string | null = null;
 
   // Hero / Main Service Info
+  userId = ''
   serviceTitle = 'Part-time Cleaners';
   serviceRating = 0; // We'll set from API's current_rating
   serviceReviewsCount = 0; // We'll set from reviews array length
@@ -52,39 +54,35 @@ export class PartTimeCleanersComponent implements OnInit {
     'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid'; // Dummy avatar
   sellerReviewsCount = 0; // from reviews array length
 
-  // Toggle for cleaning supplies
   hasCleaningSupplies = true;
 
-  // Services from API (replaces the old tasks array)
-  maidServices: string[] = [];
+  maidServices: { name: string }[] = [];
 
-  // Short & Long Descriptions from API
   shortDescription = '';
   longDescription = '';
 
-  // If the gig has reviews, we store them. If empty, we show "No feedback"
   reviews: any[] = [];
 
-  // Summary card data
   serviceName = '1-hour express cleaning';
   quantity = 1;
   basePrice = 62.0;
   discountPercent = 0; // currently unused
   taxes = 5.0;
   serviceFee = 3.0;
+  jobId = ''
 
-  // Vero Promise
   veroPromiseItems: string[] = [
     'Verified Professionals',
     'Safe Chemicals',
     'Superior Stain Removal',
   ];
 
-  constructor(private http: HttpClient, private route: ActivatedRoute) {}
+  constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     // Get the gig id from the URL params
     this.gigId = this.route.snapshot.paramMap.get('id');
+    this.jobId = this.route.snapshot.queryParamMap.get('job_id')!;
     if (this.gigId) {
       this.fetchGigData(this.gigId);
     }
@@ -97,7 +95,6 @@ export class PartTimeCleanersComponent implements OnInit {
         if (response.isSuccess && response.result) {
           const result = response.result;
 
-          // Title & Price
           if (result.title) {
             this.serviceTitle = result.title;
           }
@@ -106,27 +103,23 @@ export class PartTimeCleanersComponent implements OnInit {
             this.basePrice = result.price;
           }
 
-          // Seller
-          if (result.user_id && result.user_id.email) {
-            this.sellerName = result.user_id.email;
+          if (result.user_id && result.user_id.full_name) {
+            this.sellerName = result.user_id.full_name;
+            this.userId = result.user_id._id!
           }
 
-          // Current Rating
           if (result.current_rating > 0) {
             this.serviceRating = result.current_rating;
             this.sellerRating = result.current_rating;
           } else {
-            // rating is 0 or not provided
             this.serviceRating = 0;
             this.sellerRating = 0;
           }
 
-          // Services
           if (result.services && result.services.length > 0) {
             this.maidServices = result.services;
           }
 
-          // Short & Long Descriptions
           if (result.short_description) {
             this.shortDescription = result.short_description;
           }
@@ -140,7 +133,6 @@ export class PartTimeCleanersComponent implements OnInit {
             this.serviceReviewsCount = result.reviews.length;
             this.sellerReviewsCount = result.reviews.length;
           } else {
-            // no reviews
             this.reviews = [];
             this.serviceReviewsCount = 0;
             this.sellerReviewsCount = 0;
@@ -153,7 +145,6 @@ export class PartTimeCleanersComponent implements OnInit {
     });
   }
 
-  // Computed properties
   get discountAmount(): number {
     return +(this.basePrice * (this.discountPercent / 100)).toFixed(2);
   }
@@ -163,13 +154,9 @@ export class PartTimeCleanersComponent implements OnInit {
   }
 
   get total(): number {
-    return +(
-      this.subTotal -
-      this.discountAmount +
-      this.taxes +
-      this.serviceFee
-    ).toFixed(2);
+    return +(this.subTotal - this.discountAmount + this.taxes + this.serviceFee).toFixed(2);
   }
+
 
   // Methods
   toggleCleaningSupplies() {
@@ -187,6 +174,6 @@ export class PartTimeCleanersComponent implements OnInit {
   }
 
   hireMe() {
-    alert(`You have hired this service for ${this.quantity} hour(s)!`);
+    this.router.navigate(['/chat'], { queryParams: { gigId: this.gigId, jobId: this.jobId } });
   }
 }

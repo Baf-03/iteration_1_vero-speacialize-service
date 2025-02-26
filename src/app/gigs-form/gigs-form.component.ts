@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SharedModule } from '../shared/shared.module';
 import { ProviderMenuComponent } from '../provider-menu/provider-menu.component';
 import { ProviderHeaderComponent } from '../provider-header/provider-header.component';
+import { ToastrService } from 'ngx-toastr';
 
 interface ServiceCategory {
   _id: string;
@@ -176,8 +177,10 @@ export class GigsFormComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    private toastr: ToastrService,
+
+  ) { }
 
   ngOnInit(): void {
     // 1) Fetch all services
@@ -240,7 +243,7 @@ export class GigsFormComponent implements OnInit {
           this.description1 = gig.short_description;
           this.description2 = gig.description;
           this.additionalNotes = '';
-          this.selectedServices = gig.services || [];
+          this.selectedServices = gig.services.map((s: any) => s._id) || [];
         } else {
           alert('Failed to fetch gig details');
           this.clearEditMode();
@@ -283,7 +286,7 @@ export class GigsFormComponent implements OnInit {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + this.getToken()
     });
-  
+
     // Build request body
     const body: any = {
       title: this.gigTitle,
@@ -292,14 +295,16 @@ export class GigsFormComponent implements OnInit {
       description: this.description2,
       services: this.selectedServices
     };
-  
+
     // If updating, include the gig id and make PUT request
     if (this.gigId) {
       body.id = this.gigId;
       this.http.put<any>('gigs', body, { headers }).subscribe({
         next: (res) => {
           if (res.isSuccess && res.result) {
-            alert('Gig updated successfully!');
+            this.toastr.info("Gig updated successfully!");
+            this.router.navigate(['/gigs-listing/provider']);
+
             // Optionally, redirect or perform another action after update
           } else {
             alert('Failed to update gig');
@@ -315,7 +320,7 @@ export class GigsFormComponent implements OnInit {
       this.http.post<any>('gigs', body, { headers }).subscribe({
         next: (res) => {
           if (res.isSuccess && res.result) {
-            alert('Gig created successfully!');
+            this.toastr.info("Gig created successfully!");
             // Redirect to the gigs listing page for providers
             this.router.navigate(['/gigs-listing/provider']);
           } else {

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 
 interface Gig {
-  name: string;
+  title: string;
   description: string;
   rating: number;
   reviews: string;
@@ -18,121 +19,93 @@ interface Gig {
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.scss'],
 })
-export class ProfilePageComponent {
-  // Banner / Hero
+export class ProfilePageComponent implements OnInit {
+  // Safely retrieve user data from localStorage
+  user: any = {};
+  
+  // Hero Section (Fixed)
   heroBannerUrl = 'https://media.licdn.com/dms/image/v2/C561BAQHS961kXf5sjA/company-background_10000/company-background_10000/0/1635378826217/cover_genius_cover?e=2147483647&v=beta&t=eyjurIzUddEmGepg99eyr4WCzQZPN0G6Ulwb7zXyQq4';
-  userAvatarUrl = 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid';
-  userName = 'Simon Lewis';
-  userRating = 4.6;
-  userReviewsCount = '568k';
-  userRole = 'Vendor';
 
-  // About section
-  aboutFullName = 'John Doe';
-  aboutStatus = 'Active';
-  aboutRole = 'Cleaner';
-  aboutCountry = 'USA';
-  aboutLanguages = 'English';
+  // Initialize variables safely, default to empty or fallback values
+  userAvatarUrl: string = 'https://specializeservice.s3.amazonaws.com/avatar/44453b9c-ad85-4bcf-9ab5-f9781b481ddf-1583347991345-irfanali.jpg'; // default avatar URL
+  userName: string = 'User';
+  userRole: string = 'ServiceProvider';
 
-  // Job Profile fields
-  companyName = 'My Handy Services';
-  workEmail = 'Simon.lewis@gmail.com';
-  workPhone = '+1 (908) 1234 567';
-  totalExperience = '20 Yrs';
-  website = 'www.myhandyservices.com';
-  location = 'SanFrancisco, California';
+  // Other profile data (from localStorage or default values)
+  userRating: number = 4.6;
+  userReviewsCount: string = '568k';
 
-  // Services
-  services = ['Cleaning', 'Plumbing', 'Electrical', 'Roofing'];
+  // About Section Data
+  aboutFullName: string = 'Full Name';
+  aboutStatus: string = 'Active';
+  aboutRole: string = 'Role';
+  aboutCountry: string = 'USA';
+  aboutLanguages: string = 'English';
 
-  // Gigs data
-  gigs: Gig[] = [
-    {
-      name: 'Jessica Strike',
-      description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
-      price: 62,
-      imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
-      isLiked: false,
-    },
-    {
-      name: 'Jessica Strike',
-      description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
-      price: 62,
-      imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
-      isLiked: false,
-    },
-    {
-      name: 'Jessica Strike',
-      description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
-      price: 62,
-      imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
-      isLiked: false,
-    },
-    {
-      name: 'Jessica Strike',
-      description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
-      price: 62,
-      imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
-      isLiked: false,
-    },
-    {
-      name: 'Jessica Strike',
-      description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
-      price: 62,
-      imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
-      isLiked: false,
-    },
-    {
-      name: 'Jessica Strike',
-      description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
-      price: 62,
-      imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
-      isLiked: false,
-    },
-    {
-      name: 'Jessica Strike',
-      description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
-      price: 62,
-      imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
-      isLiked: false,
-    },
-    {
-      name: 'Jessica Strike',
-      description: 'Expert solutions to repair or replace your faucets, fixtures, & pipes, keeping your flow flawless!',
-      rating: 4.6,
-      reviews: '568k',
-      price: 62,
-      imageUrl: 'https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg',
-      isLiked: false,
-    },
-  ];
+  // Job Profile Fields
+  companyName: string = 'My Handy Services';
+  workEmail: string = 'Email not provided';
+  workPhone: string = '+923132568891';
+  totalExperience: string = '20 Yrs';
+  website: string = 'www.myhandyservices.com';
+  location: string = 'San Francisco, California';
 
-  // Work coverage
-  workCoverage = 'Bonded';
+  // Services list
+  services: string[] = ['Cleaning', 'Plumbing', 'Electrical', 'Roofing'];
 
-  // License image
-  licenseImageUrl = 'https://via.placeholder.com/400x200?text=License';
+  // Gigs Data (Initially empty)
+  gigs: Gig[] = [];
 
-  // "Message" button click
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    // Attempt to load user data from localStorage safely
+    const userFromLocalStorage = localStorage.getItem('user');
+    console.log("user", userFromLocalStorage)
+    if (userFromLocalStorage) {
+      this.user = JSON.parse(userFromLocalStorage);
+      console.log("this", this.user.user.avatar)
+
+      // Safely assign the values from localStorage
+      this.userAvatarUrl = this.user.user.avatar || this.userAvatarUrl;  // Use fallback if no avatar in localStorage
+      this.userName = this.user.user.full_name || 'User';
+      this.userRole = this.user.user.user_type || 'ServiceProvider';
+      this.aboutFullName = this.user.user.full_name || 'Full Name';
+      this.aboutRole = this.user.user.user_type || 'Role';
+      this.workEmail = this.user.user.email || 'Email not provided';
+      this.workPhone = this.user.user.mobile_number || '+923132568891';
+    } else {
+      console.error('User data not found in localStorage!');
+    }
+
+    this.fetchGigs(); // Fetch gigs when the component initializes
+  }
+
+  // Fetch Gigs from API
+  fetchGigs(): void {
+    this.http.get<any>('gigs/my-gigs').subscribe((response) => {
+      if (response.isSuccess) {
+        this.gigs = response.result.map((gig: any) => ({
+          title: gig.title,
+          description: gig.description,
+          rating: gig.current_rating,
+          reviews: gig.reviews.length > 0 ? gig.reviews.length.toString() : '0',
+          price: gig.price,
+          imageUrl: 'https://via.placeholder.com/150',  // Use a placeholder or an actual image URL
+          isLiked: false,  // Default to false
+        }));
+      } else {
+        console.error('Failed to fetch gigs from API');
+      }
+    });
+  }
+
+  // "Message" button click handler
   onMessage(): void {
     alert('Message clicked!');
   }
 
-  // "Like" toggle
+  // "Like" toggle for gigs
   toggleLike(gig: Gig) {
     gig.isLiked = !gig.isLiked;
   }

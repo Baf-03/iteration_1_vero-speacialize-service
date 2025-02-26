@@ -17,6 +17,9 @@
             <li *ngIf="user">
               <a href="javascript:;" [routerLink]="['/jobs']">My Jobs</a>
             </li>
+            <li *ngIf="user">
+              <a href="javascript:;" [routerLink]="['/multi-form']">Create Job</a>
+            </li>
             <li class="orangebx" *ngIf="user">
               <a class="btn-anhor" (click)="logout()"> Logout </a>
             </li>

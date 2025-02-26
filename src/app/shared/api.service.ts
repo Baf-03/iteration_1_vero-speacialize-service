@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class ApiService {
   getGigs(status: any, type: any): any {
-      throw new Error('Method not implemented.');
+    throw new Error('Method not implemented.');
   }
 
   getMyGigs(): Promise<any> {
@@ -13,7 +13,26 @@ export class ApiService {
     return this.http.get('gigs/my-gigs', { headers }).toPromise();
   }
 
-  constructor(private http: HttpClient) {}
+  acceptJob(body: any): Promise<any> {
+    const token = localStorage.getItem('accessToken') || '';
+    const headers = { Authorization: 'Bearer ' + token };
+    return this.http.post('provider-job/accept-new-job', body, { headers }).toPromise();
+  }
+
+  fetchJob(id: string): Promise<any> {
+    const token = localStorage.getItem('accessToken') || '';
+    const headers = { Authorization: 'Bearer ' + token };
+    return this.http.get(`job/detail/${id}`, { headers }).toPromise();
+  }
+
+  fetchGig(id: string): Promise<any> {
+    const token = localStorage.getItem('accessToken') || '';
+    const headers = { Authorization: 'Bearer ' + token };
+    return this.http.get(`gigs/${id}`, { headers }).toPromise();
+   
+  }
+
+  constructor(private http: HttpClient) { }
 
   registerProvider(body: any): Promise<any> {
     return this.http

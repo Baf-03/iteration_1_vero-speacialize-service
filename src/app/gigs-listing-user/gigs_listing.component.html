@@ -24,13 +24,14 @@
           <div class="gig-header">
             <img [src]="gig.imageUrl" [alt]="gig.name" />
             <div class="gig-info">
-              <h5>{{ gig.name }}</h5>
+              <h5>{{ gig.title }}</h5>
               <small>{{ gig.level }}</small>
             </div>
           </div>
 
           <!-- Gig Description -->
-          <p class="gig-description">{{ gig.description }}</p>
+
+          <p class="gig-description">{{ gig.short_description }}</p>
 
           <!-- Gig Footer -->
           <div class="gig-footer">
@@ -71,7 +72,7 @@
           <div class="gig-header">
             <img [src]="gig.imageUrl" [alt]="gig.name" />
             <div class="gig-info">
-              <h5>{{ gig.name }}</h5>
+              <h5>{{ gig.title }}</h5>
               <small>{{ gig.level }}</small>
             </div>
           </div>
